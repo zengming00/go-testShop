@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="Generator" content="手机网" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content="" />
+	<title>商城演示站 - Powered by go-server-js</title>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+	<link href="/public/css/member.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<%include ./views/header.ejs%>
+<div class="content">
+	<div class="user">
+		<div class="menu">当前位置: <span><a href="">首页</a> <code>&gt;</code> 购物流程</span></div>
+
+		<form id=theForm name=theForm action="/routes/flow/done.js" method=post>
+
+			<div class='shop'>
+				<div class='shoporder'>
+					<div id=step_2>
+						<div class='linebt'><span>收货人信息</span><em></em></div>
+						<div class='tfmain_m'>
+							<div class='shoporder_mdiv'>
+								<div class='tfmain_mdivm' id=step_2_address>
+									<p>收货地址：
+										<span>
+											<%if(user.address){%>
+											<%=user.address%>
+											<%}else{%>
+											<span style="color:red">未填写（<a href="/routes/user/address.js">立即填写</a>）</span>
+											<%}%>
+										</span>
+									</p>
+									<div class='clear'></div>
+								</div>
+								<div class='tfmain_butr'><a href="/routes/user/address.js" name=but_step2_g1>修改</a></div>
+							</div>
+						</div>
+					</div>
+					<div id=step_7>
+						<div class='linebt'><span>商品列表</span><em></em></div>
+						<ul class='orderm_b'>
+							<li class='orderm_num'>序号 </li>
+							<li class='orderm_zjd'>商品名称 </li>
+							<li class='orderm_xq'>购买数量 </li>
+							<li class='orderm_zf'>本店价 </li>
+							<li class='orderm_zf'>小计 <div class='clear'></div></li>
+						</ul>
+<%cart.items().forEach(function(g,i){%>
+						<ul>
+							<li class='orderm_num'><%-i+1%></li>
+							<li class='orderm_zjd'>
+								<a href="/routes/goods.js?oid=<%=g.id%>" target="_blank"><%=g.name%></a>
+							</li>
+							<li class='orderm_xq'><%=g.num%></li>
+							<li class='orderm_zf'><%=g.price%> </li>
+							<li class='orderm_zf'><%=cart.floor(g.price * g.num)%></li><div class='clear'></div>
+						</ul>
+<%})%>
+						<div class='contno'>
+							<div class='contno_l'>
+								<span>购物金额总计 ￥<%=cart.getTotalMoney()%>元</span>
+							</div>
+							<div class='contno_r'><a class='f6' href="/routes/flow/cart.js">回到购物车，添加或删除商品</a></div>
+							<div class='clear'></div>
+						</div>
+					</div>
+					<div id=step_6 style="margin-top: 10px">
+						<div class='linebt'><span id=step3>其它信息</span><em></em></div>
+						<div class='tfmain_m'>
+							<div class='shoporder_mdiv'>
+								<div class='tfmain_mdivm'>
+									<dl class="shipping_method" style="overflow:hidden;height:auto;">
+										<dd style="border-bottom:none">
+											<span class='left'>订单附言:</span>
+											<span class='left'>
+												<textarea id=postscript style="border-right: #ccc 1px solid; border-top: #ccc 1px solid; border-left: #ccc 1px solid; border-bottom: #ccc 1px solid" name='fuyan' rows=3 cols=80></textarea>
+				  							</span>
+											<span class='clear'></span>
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id=step_6>
+						<div class='linebt'><span id=step3>费用总计</span><em></em></div>
+						<div class='tfmain_m'>
+							<div class='shoporder_mdiv'>
+								<div class='tfmain_mdivm'>
+									<div id=ECS_ORDERTOTAL style="padding-bottom: 20px; text-align: right">
+										商品总价: <font class='f4_b'>￥<%=cart.getTotalMoney()%>元</font> <br>
+										应付款金额: <font class='f4_b'>￥<%=cart.getTotalMoney()%>元</font> <br>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class='shoporder_enter'>
+						请确认以上信息，下单后将无法修改<br>
+						<input class='buttonredb' type="submit" value="确定下单"/>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<%include ./views/footer.html%>
+</body>
+</html>

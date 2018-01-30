@@ -1,0 +1,22 @@
+<% tree.forEach(function(t) { %>
+    <% if(t.parent_id == 0){ %>
+    <div>
+        <span class="left">
+            <a href="/routes/category.js?cat_id=<%=t.oid%>">
+                <%=t.cat_name%>
+            </a>
+        </span>
+        <span class="right subnav_right">
+            <img src="/public/images/line.gif" border="0" id="categorie_ico1">
+        </span>
+    </div>
+    <% } else { %>
+    <ul>
+        <li>&nbsp;
+            <a href="/routes/category.js?cat_id=<%=t.oid%>">
+                <%=t.cat_name%>
+            </a>
+        </li>
+    </ul>
+    <% } %>
+<% }); %>

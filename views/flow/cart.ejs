@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="Generator" content="手机网" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content="" />
+	<title>商城演示站 - Powered by go-server-js</title>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+	<link href="/public/css/member.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<%include ./views/header.ejs %>
+<div class="content">
+	<div class="user">
+		<div class="menu">当前位置: <span><a href="">首页</a> <code>&gt;</code> 购物流程</span></div>
+		<form id="formCart" name="formCart" method="post">
+			<div class="shop">
+				<div class="linebt"><span><img src="/public/images/cart.jpg" align="absmiddle" />我的购物车</span><em></em></div>
+				<ul class="shop_b">
+					<li class="shop_num">序号</li>
+					<li class="shop_pic">　</li>
+					<li class="shop_name">商品名称</li>
+					<li class="shop_nu">购买数量</li>
+					<li class="shop_much">单价</li>
+					<li class="shop_sum">小计</li>
+					<li class="shop_oper">操作</li>
+					<div class="clear"></div>
+				</ul>
+<%cart.items().forEach(function(g,i){%>
+				<ul class="ulcart">
+					<li class="shop_num"><%-i+1%></li>
+					<li class="shop_pic">
+						<div class="promin_mainpic">
+							<div class="promin_mainpicn">
+								<a href="/routes/goods.js?oid=<%=g.id%>" target="_blank"><img src="<%=g.img%>" border="0" style="width: auto"/></a><br />
+								<i></i>
+							</div>
+						</div>
+					</li>
+					<li class="shop_name">
+						<a href="/routes/goods.js?oid=<%=g.id%>" target="_blank"><%=g.name%></a>
+					</li>
+					<li class="shop_nu">
+						<a href="/routes/flow/cartApi.js?a=decr&oid=<%=g.id%>"><img src="/public/images/bag_close.gif"/></a>
+						<input type="text" name="goods_number[44]" class="input_num" id="goods_number_44" value="<%=g.num%>" size="4" style="text-align:center" readonly="true" />
+						<a href="/routes/flow/cartApi.js?a=incr&oid=<%=g.id%>"><img src="/public/images/bag_open.gif"/></a>
+					</li>
+					<li class="shop_much">￥<%=g.price%>元</li>
+					<li class="shop_sum">￥<%=cart.floor(g.price * g.num)%>元</li>
+					<li class="shop_oper">
+						<a href="/routes/flow/cartApi.js?a=del&oid=<%=g.id%>" class="f6">删除</a>&nbsp;&nbsp;
+						<a href="#" class="f6">放入收藏夹</a>
+					</li>
+					<div class="clear"></div>
+				</ul>
+<%})%>
+				<div class="contno">
+				<span>购物金额总计 ￥<%=cart.getTotalMoney()%>元</span>
+				</div>
+				<div class="shop_bot">
+					<span class="left"></span>
+					<span class="right">
+					<input type="button" value="继续购物" class="button_shop" style="cursor:pointer" onClick="location.href='/';">
+					<input type="button" value="提交订单" style="cursor:pointer" class="buttonredb" onClick="location.href='checkout.js'">
+				</span>
+					<span class="clear"></span>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</form>
+	</div>
+</div>
+<% include ./views/footer.html %>
+</body>
+</html>

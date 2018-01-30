@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>
+    <meta name="Generator" content="手机网" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <title>商城演示站 - Powered by go-server-js</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="icon" href="animated_favicon.gif" type="image/gif" />
+    <link href="/public/css/index.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/public/js/common.js"></script>
+</head>
+    
+<body>
+<% include ./views/header.ejs %>
+
+    <div id="body">
+        <div class="body_l">
+            <div class="subsearch">
+                <form id="searchForm" name="searchForm" method="get" action="search.php"
+                    onSubmit="return checkSearchForm()">
+                    <div>
+                        <input name="keywords" type="text" id="keyword" value="" class="searchmobile">
+                        <button class="menu_button" name="menu_button" onclick="return checkSearchForm()">
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                function checkSearchForm() {
+                    if (document.getElementById('keyword').value) {
+                        return false;
+                    } else {
+                        alert("请输入搜索关键词！");
+                        return false;
+                    }
+                }
+            </script>
+            <div class="subnav_header">
+            </div>
+            <div class="subnav">
+                <% include ./views/subnav.ejs %>
+            </div>
+            <div class="subinfo_header">
+                <div class="subinfo_header_left_top10">
+                    &nbsp;
+                    <a href="javascript:void(0)">
+                    </a>
+                </div>
+            </div>
+            <div class="subinfo_body_top10">
+                <ul>
+<% history.forEach(function(h){ %>
+                    <li>
+                        <div class="subinfo_body_top10_l">
+                            <a href="/routes/goods.js?oid=<%=h.oid%>">
+                                <img src="<%=h.goods_img%>" alt=""
+                                class="samllimg" />
+                            </a>
+                        </div>
+                        <div class="subinfo_body_top10_r">
+                            <p class="subinfo_body_top10_r_1">
+                                <a href="/routes/goods.js?oid=<%=h.oid%>" title="">
+                                    <%=h.goods_name%>
+                                </a>
+                            </p>
+                            <p class="subinfo_body_top10_r_2">
+                                <a href="javascript:void(0)">
+                                </a>
+                            </p>
+                            <p class="subinfo_body_top10_r_3">
+                                ￥<%=h.shop_price%>元
+                            </p>
+                        </div>
+                        <div class="clear">
+                        </div>
+                    </li>
+<% }) %>
+                </ul>
+            </div>
+            <div class="subinfo_footer">
+            </div>
+        </div>
+        <div class="body_brand_r">
+            <div class="menu">
+                当前位置:
+                <span>
+                    <a href="/">
+                        首页
+                    </a>
+<% family.forEach(function(f){ %>
+	                    <code> &gt; </code>
+	                    <a href="/routes/category.js?cat_id=<%=f.oid%>">
+	                        <%=f.cat_name%>
+	                    </a>
+<% }); %>
+                </span>
+            </div>
+            <div class="type_nav">
+                <ul>
+                    <li class="type_nav_li1" >
+                        <a href="javascript:void(0)">
+                            音乐手机
+                        </a>
+                    </li>
+                    <li  class="type_nav_li2">
+                        <a href="javascript:void(0)">
+                            GPS导航手机
+                        </a>
+                    </li>
+                    <li  class="type_nav_li3">
+                        <a href="javascript:void(0)">
+                            超长待机
+                        </a>
+                    </li>
+                    <li  class="type_nav_li4">
+                        <a href="javascript:void(0)">
+                            电视手机
+                        </a>
+                    </li>
+                    <li  class="type_nav_li5">
+                        <a href="javascript:void(0)">
+                            拍照手机
+                        </a>
+                    </li>
+                    <li  class="type_nav_li6">
+                        <a href="javascript:void(0)">
+                            双卡手机
+                        </a>
+                    </li>
+                    <li  class="type_nav_li7">
+                        <a href="javascript:void(0)">
+                            大屏手写手机
+                        </a>
+                    </li>
+                    <li  class="type_nav_li8">
+                        <a href="javascript:void(0)">
+                            智能手机
+                        </a>
+                    </li>
+                    <li  class="type_nav_li9">
+                        <a href="javascript:void(0)">
+                            游戏手机
+                        </a>
+                    </li>
+                </ul>
+                <div class="clear">
+                </div>
+            </div>
+            <div class="pagelist">
+                <form method="get" class="sort" name="listform" onSubmit="return false">
+                    显示方式：
+                    <select name="sort" style="border:1px solid #ccc;">
+                        <option value="goods_id" selected>
+                            按上架时间排序
+                        </option>
+                        <option value="shop_price">
+                            按价格排序
+                        </option>
+                        <option value="last_update">
+                            按更新时间排序
+                        </option>
+                    </select>
+                    <select name="order" style="border:1px solid #ccc;">
+                        <option value="DESC" selected>
+                            倒序
+                        </option>
+                        <option value="ASC">
+                            正序
+                        </option>
+                    </select>
+                    <input type="submit" name="imageField" value="Go" />
+                    <input type="hidden" name="category" value="3" />
+                    <input type="hidden" name="display" value="grid" id="display" />
+                    <input type="hidden" name="brand" value="0" />
+                    <input type="hidden" name="price_min" value="0" />
+                    <input type="hidden" name="price_max" value="0" />
+                    <input type="hidden" name="filter_attr" value="0" />
+                    <input type="hidden" name="page" value="1" />
+                </form>
+            </div>
+            <div class="page_header">
+                <form name="selectPageForm" action="/shouji/category.php" method="get">
+                    <div id="page" class="pagebar">
+                        <%-page%>
+                    </div>
+                </form>
+                <script type="Text/Javascript" language="JavaScript">
+                    function selectPage(sel) {
+                        sel.form.submit();
+                    }
+                </script>
+            </div>
+            <ul class="productlist">
+<% if(!gs[0]){ %>
+            		<div style="text-align:center" >什么也没有</div>
+<% } %>
+<% gs.forEach(function(g) { %>
+                <li>
+                    <a href="/routes/goods.js?oid=<%=g.oid%>">
+                        <img src="<%=g.goods_img%>" alt="<%=g.goods_name%>" width="100px" height="100px"/>
+                    </a>
+                    <p class="pname" style="    padding: 0 30px;">
+                        <a href="/routes/goods.js?oid=<%=g.oid%>" title="<%=g.goods_name%>">
+                            <%=g.goods_name%>
+                        </a>
+                    </p>
+                    <p class="price">
+                        ￥<%=g.shop_price%>元
+                    </p>
+                </li>
+<% }); %>
+            </ul>
+            <div class="page_footer" style="    clear: both;">
+                <form name="selectPageForm" action="/shouji/category.php" method="get">
+                    <div id="page" class="pagebar">
+                        <%-page%>
+                    </div>
+                </form>
+                <script type="text/Javascript">
+                    function selectPage(sel) {
+                        sel.form.submit();
+                    }
+                </script>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+
+<% include ./views/footer.html %>
+</body>
+
+</html>

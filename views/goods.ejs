@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="Generator" content="手机网" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="" />
+<meta name="Description" content="" />
+    <title>商城演示站 - Powered by go-server-js</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="/public/css/index.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/public/js/common.js"></script>
+</head>
+
+<body>
+<% include ./views/header.ejs %>
+
+<div class="position">
+    当前位置:
+    <span>
+        <a href="/">首页</a>
+<%family.forEach(function(f){%>
+        <code> &gt; </code>
+        <a href="/routes/category.js?cat_id=<%=f.oid%>">
+        	<%=f.cat_name%>
+        </a>
+<%})%>
+        <code> &gt; </code>
+        <%=gs.goods_name%>
+    </span>
+</div>
+<div id="detail_body">
+    <div class="detail_l">
+        <div class="detail_pic">
+            <a href="javascript:void(0);" >
+                <img src="<%=gs.goods_img%>" alt="<%=gs.goods_name%>" name="goods_img_id" id="goods_img_id" style="width: 250px;height: 250px;"/>
+            </a>
+        </div>
+        
+        <div class="clear">
+        </div>
+    </div>
+    <div class="detail_r">
+        <div class="detail_rbt">
+            <h1>
+                <%=gs.goods_name%>
+            </h1>
+            <h2>
+            </h2>
+        </div>
+        <div style="width: 100%; padding-top: 10px;">
+            <div style="width: 260px; height: 100px; float: left; margin-top: 15px;">
+                <ul style="border-bottom: medium none;">
+                    <li style="width: 260px; float: left; margin-right: 10px; margin-top: 5px;">
+                        市场价格：：
+                        <span style="text-decoration: line-through;">
+                            ￥<%=gs.shop_price+Math.ceil(gs.shop_price*0.15)%>元
+                        </span><br />
+                        本店售价：：
+                        <span>
+                            <font color="red">￥<%=gs.shop_price%>元</font>
+                        </span><br/>
+                        库存：<%=gs.goods_number%>
+                    </li>
+                    <li class="detail_qgl" style="margin-top: 13px;">
+                        <span class="gg2">
+                        </span>
+                        <span class="gg3">
+                        </span>
+                        <span class="gg5">
+                        </span>
+                        <span class="gg9">
+                        </span>
+                        <span class="gg14">
+                        </span>
+                        <span class="gg15">
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div style="margin-top:30px;"><a href="/routes/flow/cartApi.js?a=add&oid=<%=gs.oid%>"><img src="/public/images/member_shop.gif" /></a></div>
+
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="clear detail_body_footer">
+        <div style="border: 1px solid rgb(204, 204, 204); background: transparent url(/public/images/ad/ads03.jpg) repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 885px; height: 71px; color: rgb(102, 102, 102);">
+            <ul style="padding-left: 10px;">
+                <li style="padding: 5px; line-height: 20px; width: 260px; float: left;">
+                    ★ 买机送金
+                    <br>
+                    为真情回馈广大客户的关注，网站推出清凉七月购机送金活动。开心多多，欢乐多多！
+                </li>
+                <li style="padding: 5px; line-height: 20px; width: 265px; float: left;">
+                    ★ 全场免邮
+                    <br>
+                    凡在本站购物的每位顾客，都可以享受到免29元邮费的待遇，真正做到网上购物，实惠多多！
+                </li>
+                <li style="overflow: hidden; width: 330px; float: right; height: 71px;">
+                    <img src="/public/images/ads03.gif">
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="detail_info">
+    <div class="detail_info_l">
+        <div class="detail_info_l_header">
+            <ul>
+                <li class="hover" onmouseover="orderView(1);" id="view_1">
+                    商品描述：
+                </li>
+                <li class="" onmouseover="orderView(2);" id="view_2">
+                    商品属性
+                </li>
+            </ul>
+        </div>
+        <div class="detail_info_l_body">
+            <div style="display: block;" class="detailm_content1" id="c1">
+                <%=gs.goods_desc%>
+            </div>
+            <div class="detailm_content2" id="c2" style="display: none;">
+                    
+            </div>
+            </div>
+            <div id="ECS_COMMENT">
+                <div class="det_review">
+                    <form action="javascript:;" onsubmit="submitComment(this)" method="post"
+                    name="commentForm" id="commentForm">
+                        <strong>
+                            评价/提问
+                        </strong>
+                        <em>
+                            已购用户如有售后问题请直接拨打客服专线4007-112-211，以便获得更加及时专业的服务
+                        </em>
+                        <br>
+                        <textarea name="content" class="text_detreview" id="pingjia"></textarea>
+                        <input type="hidden" name="cmt_type" value="0" />
+                        <input type="hidden" name="id" value="9" />
+                        <span class="jo">
+                            <input name="comment_rank" value="5" id="comment_rank5" type="hidden">
+                        </span>
+                        <input name="topictpl" id="topictpl" value="0" type="hidden">
+                        <br>
+                        <div class="det_review_r">
+                            <div class="det_review_rl">
+                                <a href="javascript:void(0)" target="_blank">
+                                    没有用户名，请注册
+                                </a>
+                            </div>
+                            <div class="det_review_rr">
+                                <span>
+                                    用户名：匿名用户&nbsp; E-mail：
+                                    <input name="email" id="email" maxlength="100" value="" class="text_short"
+                                    type="text">
+                                </span>
+                                　
+                                <input name="Submit" value="完 成" class="buttonred" type="submit">
+                            </div>
+                            <div class="clear">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="review">
+                    暂时还没有任何用户评论
+                </div>
+
+                <div class="review">
+                    <div class="rev_t">
+                        <div class="rev_t_user"><strong>作者：</strong>ecshop</div>
+                        <div class="rev_t_time"><strong>时间：</strong>2009-05-12 21:45:20</div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rev_m">很好，我很喜欢</div>
+			    </div>
+
+
+                <div class="page" style="margin-top:20px;">
+                    <div id="pagebar" class="f_r">
+                        <form name="selectPageForm" action="/shouji/goods.php" method="get">
+                            <div id="pager">
+                                总计 0 个记录，共 1 页。
+                                <a href="javascript:gotoPage(1,9,0)">
+                                    第一页
+                                </a>
+                                <a href="javascript:;">
+                                    上一页
+                                </a>
+                                <a href="javascript:;">
+                                    下一页
+                                </a>
+                                <a href="javascript:;">
+                                    最末页
+                                </a>
+                            </div>
+                        </form>
+                        <script type="Text/Javascript" language="JavaScript">
+                            function selectPage(sel) {
+                                sel.form.submit();
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <div class="detail_info_r">
+            <div class="shop">
+                <a href="javascript:collect(9)">
+                    加入收藏夹
+                </a>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+<script type="text/javascript">
+    function orderView(id) {
+        //alert('未制作');view_1
+        var view_1 = $("view_1");
+        var view_2 = $("view_2");
+        var c1 = $("c1");
+        var c2 = $("c2");
+        if(id==1)
+        {
+            view_1.className="hover";
+            view_2.className="";
+            c1.style.display="block";
+            c2.style.display="none";
+        }
+        else
+        {
+            view_1.className="";
+            view_2.className="hover";
+            c1.style.display="none";
+            c2.style.display="block";
+        }
+    };
+
+    function img_src(val){
+        $("goods_img_id").src=val;
+    }
+    var boxheight=81;//跟图片的实际尺寸相符
+    var box=$("demo");
+    // var dulbox=$("demo2");
+    // obox.style.height=obox.getElementsByTagName("li").length*boxheight+'px';
+    // dulbox.style.height=obox.getElementsByTagName("li").length*boxheight+'px';
+    /*box.style.height=obox.getElementsByTagName("li").length*boxheight*3+'px';*/
+    var canroll = false;
+    var step=5;temp=1;speed=10;
+    var mData=0;
+    var isStop = 1;
+    var dir = 1;
+    function s(){
+        if (!canroll) return;
+        if (dir) {
+            if((aheight+mData)>=0){
+                mData=mData-step;
+            }
+            else{
+                mData=-step;
+            }
+        }
+        else{
+            if(mData>=0){
+                mData=-aheight;
+            }
+            else{
+                mData+=step;
+            }
+        }
+        if (isStop) return;
+        setTimeout(s,speed)
+    }
+    function moveLeft() {
+        var wasStop = isStop;
+        dir = 1;
+        speed = 50;
+        isStop=0;
+        if (wasStop) {
+            setTimeout(s,speed);
+        }
+    }
+    function moveRight() {
+        var wasStop = isStop;
+        dir = 0;
+        speed = 50;
+        isStop=0;
+        if (wasStop) {
+            setTimeout(s,speed);
+        }
+    }
+    function scrollStop() {
+        isStop=1;
+    }
+    function clickLeft() {
+        var wasStop = isStop;
+        dir = 1;
+        speed = 25;
+        isStop=0;
+        if (wasStop) {
+            setTimeout(s,speed);
+        }
+    }
+    function clickRight() {
+        var wasStop = isStop;
+        dir = 0;
+        speed = 25;
+        isStop=0;
+        if (wasStop) {
+            setTimeout(s,speed);
+        }
+    }
+</script>
+
+<% include ./views/footer.html %>
+</body>
+</html>
