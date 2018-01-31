@@ -149,9 +149,9 @@ func BuildWhere(where map[string]interface{}) *BuildWhereResult {
 	}
 }
 
-type QueryFunc = func(sql string, params []interface{}) ([]map[string]interface{}, error)
+type QueryFunc = func(sql string, params []interface{}) (interface{}, error)
 
-func Find(sql string, where, opt map[string]interface{}, queryFunc QueryFunc) ([]map[string]interface{}, error) {
+func Find(sql string, where, opt map[string]interface{}, queryFunc QueryFunc) (interface{}, error) {
 	var params = make([]interface{}, 0)
 	if where != nil {
 		var r = BuildWhere(where)

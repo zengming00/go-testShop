@@ -8,50 +8,38 @@ type GoodsModel struct {
 	db *sql.DB
 }
 
-func (g *GoodsModel) Query(sql string, params []interface{}) ([]map[string]interface{}, error) {
+type Good struct {
+	Id           int
+	Oid          string
+	Goods_name   string
+	Cat_id       string
+	Shop_price   string
+	Goods_img    string
+	Goods_desc   string
+	Goods_number int
+	Is_best      int
+	Is_new       int
+	Is_hot       int
+	Is_on_sale   int
+	Created_at   string
+	Updated_at   string
+}
+
+func (g *GoodsModel) Query(sql string, params []interface{}) (interface{}, error) {
 	rows, err := g.db.Query(sql, params...)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var ret = make([]map[string]interface{}, 0)
+	var ret = make([]*Good, 0)
 	for rows.Next() {
-		var id int
-		var oid string
-		var goods_name string
-		var cat_id string
-		var shop_price string
-		var goods_img string
-		var goods_desc string
-		var goods_number int
-		var is_best int
-		var is_new int
-		var is_hot int
-		var is_on_sale int
-		var created_at string
-		var updated_at string
-
-		var err = rows.Scan(&id, &oid, &goods_name, &cat_id, &shop_price, &goods_img, &goods_desc, &goods_number, &is_best, &is_new, &is_hot, &is_on_sale, &created_at, &updated_at)
+		var good = &Good{}
+		var err = rows.Scan(&good.Id, &good.Oid, &good.Goods_name, &good.Cat_id, &good.Shop_price, &good.Goods_img, &good.Goods_desc,
+			&good.Goods_number, &good.Is_best, &good.Is_new, &good.Is_hot, &good.Is_on_sale, &good.Created_at, &good.Updated_at)
 		if err != nil {
 			return nil, err
 		}
-
-		ret = append(ret, map[string]interface{}{
-			"id":           id,
-			"oid":          oid,
-			"goods_name":   goods_name,
-			"cat_id":       cat_id,
-			"shop_price":   shop_price,
-			"goods_img":    goods_img,
-			"goods_desc":   goods_desc,
-			"goods_number": goods_number,
-			"is_best":      is_best,
-			"is_new":       is_new,
-			"is_hot":       is_hot,
-			"is_on_sale":   is_on_sale,
-			"created_at":   created_at,
-			"updated_at":   updated_at,
-		})
+		ret = append(ret, good)
 	}
 	err = rows.Err()
 	if err != nil {

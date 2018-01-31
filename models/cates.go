@@ -12,91 +12,96 @@ func NewCatesModel(db *sql.DB) *CatesModel {
 	return &CatesModel{db}
 }
 
-// func GetTree($rows, $pid, $level) {
-//   $pid = $pid || 0;
-//   $level = $level || 0;
-
-//   var $tree = [];
-//   for (var k in $rows) {
-//     var $row = $rows[k];
-//     if ($row.parent_id == $pid) {
-//       $tree.push({  //$row是模型实体对象无法添加level属性
-//         oid: $row.oid,
-//         cat_name: $row.cat_name,
-//         intro: $row.intro,
-//         parent_id: $row.parent_id,
-//         level: $level
-//       });
-//       //if($row.oid != $row.parent_id){ //原本以为会死循环，但实际上不会出现
-//       $tree = $tree.concat(getTree($rows, $row.oid, $level + 1));
-//       //}
-//     }
-//   }
-//   return $tree;
-// }
-
-// exports.getFamily = function getFamily($rows, $catid) {
-//   var $arr = [], k, row, isFind;
-//   while ($catid != 0) {
-//     isFind = false;
-//     for (k in $rows) {
-//       row = $rows[k];
-//       if (row.oid == $catid) {
-//         $arr.unshift(row);
-//         $catid = row.parent_id;
-//         isFind = true;//避免死循环
-//         break;
-//       }
-//     }
-//     if (!isFind) break;
-//   }
-//   return $arr;
-// }
-
-// exports.getChildCates = function getChilds($rows, $catid) {
-//   var arr = [], k, r;
-//   for (k in $rows) {
-//     r = $rows[k];
-//     if (r.parent_id == $catid) {
-//       arr.push(r.oid);
-//       arr = arr.concat(getChilds($rows, r.oid));
-//     }
-//   }
-//   return arr;
-// }
-
-func (c *CatesModel) Find() ([]map[string]interface{}, error) {
-	return c.Query("select * from cates", []interface{}{})
+type CateTreeItem struct {
+	Oid       string
+	Cat_name  string
+	Intro     string
+	Parent_id string
+	Level     int
 }
 
-func (c *CatesModel) Query(sql string, params []interface{}) ([]map[string]interface{}, error) {
+func (c *CatesModel) GetTree(rows []*Cate, pid string, level int) []*CateTreeItem {
+	var tree = make([]*CateTreeItem, 0)
+	for _, row := range rows {
+		if row.Parent_id == pid {
+			tree = append(tree, &CateTreeItem{
+				Oid:       row.Oid,
+				Cat_name:  row.Cat_name,
+				Intro:     row.Intro,
+				Parent_id: row.Parent_id,
+				Level:     level,
+			})
+			tree = append(tree, c.GetTree(rows, row.Oid, level+1)...)
+		}
+	}
+	return tree
+}
+
+func (c *CatesModel) GetFamily(rows []*Cate, catid string) []*Cate {
+	var arr = make([]*Cate, 0)
+	var isFind bool
+	for catid != "0" {
+		isFind = false
+		for _, row := range rows {
+			if row.Oid == catid {
+				var tmp = make([]*Cate, len(arr)+1)
+				tmp[0] = row
+				copy(tmp[1:], arr)
+				arr = tmp
+				catid = row.Parent_id
+				isFind = true //避免死循环
+				break
+			}
+		}
+		if !isFind {
+			break
+		}
+	}
+	return arr
+}
+
+func (c *CatesModel) GetChildCates(rows []*Cate, catid string) []string {
+	var arr = make([]string, 0)
+	for _, r := range rows {
+		if r.Parent_id == catid {
+			arr = append(arr, r.Oid)
+			arr = append(arr, c.GetChildCates(rows, r.Oid)...)
+		}
+	}
+	return arr
+}
+
+func (c *CatesModel) Find() ([]*Cate, error) {
+	r, err := c.Query("select * from cates", []interface{}{})
+	if err != nil {
+		return nil, err
+	}
+	return r.([]*Cate), nil
+}
+
+type Cate struct {
+	Id         int
+	Oid        string
+	Cat_name   string
+	Intro      string
+	Parent_id  string
+	Created_at string
+}
+
+func (c *CatesModel) Query(sql string, params []interface{}) (interface{}, error) {
 	rows, err := c.db.Query(sql, params...)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var ret = make([]map[string]interface{}, 0)
+	var ret = make([]*Cate, 0)
 	for rows.Next() {
-		var id int
-		var oid string
-		var cat_name string
-		var intro string
-		var parent_id string
-		var created_at string
-
-		var err = rows.Scan(&id, &oid, &cat_name, &intro, &parent_id, &created_at)
+		cate := &Cate{}
+		var err = rows.Scan(&cate.Id, &cate.Oid, &cate.Cat_name, &cate.Intro, &cate.Parent_id, &cate.Created_at)
 		if err != nil {
 			return nil, err
 		}
-
-		ret = append(ret, map[string]interface{}{
-			"id":         id,
-			"oid":        oid,
-			"cat_name":   cat_name,
-			"intro":      intro,
-			"parent_id":  parent_id,
-			"created_at": created_at,
-		})
+		ret = append(ret, cate)
 	}
 	err = rows.Err()
 	if err != nil {
@@ -115,8 +120,12 @@ func (c *CatesModel) Query(sql string, params []interface{}) ([]map[string]inter
 //   return dbUtils.delete(db, 'delete from cates where oid=?', [oid]);
 // }
 
-func (c *CatesModel) GetByOid(oid string) ([]map[string]interface{}, error) {
-	return c.Query("select * from cates where oid = ?", []interface{}{oid})
+func (c *CatesModel) GetByOid(oid string) ([]*Cate, error) {
+	r, err := c.Query("select * from cates where oid = ?", []interface{}{oid})
+	if err != nil {
+		return nil, err
+	}
+	return r.([]*Cate), nil
 }
 
 // exports.updateByOid = function updateByOid(oid, data) {
