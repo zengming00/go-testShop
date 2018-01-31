@@ -1,15 +1,15 @@
 package models
 
-type GoodsStruct struct{}
+import (
+	"database/sql"
+)
 
-var Goods GoodsStruct
-
-func Count(where map[string]interface{}) {
-
+type GoodsModel struct {
+	db *sql.DB
 }
 
-func (*GoodsStruct) Query(sql string, params []interface{}) ([]map[string]interface{}, error) {
-	rows, err := db.Query(sql, params...)
+func (g *GoodsModel) Query(sql string, params []interface{}) ([]map[string]interface{}, error) {
+	rows, err := g.db.Query(sql, params...)
 	if err != nil {
 		return nil, err
 	}

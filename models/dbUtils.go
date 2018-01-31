@@ -58,6 +58,14 @@ func MakeFieldPlaceStr(fields []string) string {
 	return strings.Join(arr, ",")
 }
 
+func MakeInsertSql(table string, fields []string) string {
+	return fmt.Sprintf("insert into %s(%s) values(%s)", table, strings.Join(fields, ","), MakePlaceStr(len(fields)))
+}
+
+func MakeUpdateSql(table string, fields []string, wheres []string) string {
+	return fmt.Sprintf("update %s set %s where %s", table, MakeFieldPlaceStr(fields), MakeFieldPlaceStr(wheres))
+}
+
 func MakeOid() string {
 	t := lib.CurrentTimeMillis()
 	return fmt.Sprintf("%x", t)
@@ -139,4 +147,40 @@ func BuildWhere(where map[string]interface{}) *BuildWhereResult {
 		Where: " where " + rr.And,
 		Args:  rr.Args,
 	}
+}
+
+type QueryFunc = func(sql string, params []interface{}) ([]map[string]interface{}, error)
+
+func Find(sql string, where, opt map[string]interface{}, queryFunc QueryFunc) ([]map[string]interface{}, error) {
+	var params = make([]interface{}, 0)
+	if where != nil {
+		var r = BuildWhere(where)
+		sql += r.Where
+		params = append(params, r.Args...)
+	}
+
+	if sortv, ok := opt["sort"]; ok {
+		if sort, ok := sortv.(map[string]interface{}); ok {
+			var r = ExportKeyValues(sort)
+			if v, ok := r.Values[0].(string); ok {
+				sql += " order by " + r.Keys[0] + " " + v
+			}
+			// todo
+		}
+		// todo
+	}
+	var skip, skipOk = opt["skip"]
+	var limit, limitOk = opt["limit"]
+	if skipOk && limitOk {
+		sql += " limit ?,?"
+		params = append(params, skip)
+		params = append(params, limit)
+	}
+	return queryFunc(sql, params)
+}
+
+func Add(db *sql.DB, table string, data map[string]interface{}) (*DMLResult, error) {
+	var r = ExportKeyValues(data)
+	var sql = MakeInsertSql(table, r.Keys)
+	return DML(db, sql, r.Values)
 }

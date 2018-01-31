@@ -42,6 +42,25 @@ func TestBuildAnd(t *testing.T) {
 	}
 }
 
+func TestMakeInsertSql(t *testing.T) {
+	table := "foo"
+	fields := []string{"a", "b"}
+	str := MakeInsertSql(table, fields)
+	if str == "insert into foo values(?,?)" {
+		t.Error(str)
+	}
+}
+
+func TestMakeUpdateSql(t *testing.T) {
+	table := "foo"
+	fields := []string{"a", "b"}
+	wheres := []string{"c", "d"}
+	str := MakeUpdateSql(table, fields, wheres)
+	if str == "update foo set a=?,b=? where c=? and d=?" {
+		t.Error(str)
+	}
+}
+
 func TestBuildWhere(t *testing.T) {
 	where := map[string]interface{}{
 		"a": "haha",

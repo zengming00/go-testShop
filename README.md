@@ -1,6 +1,6 @@
-# 修改自“使用Node.js技术制作的商城演示项目”，用作go-server-js使用体验
+# 修改自“go-server-js 的演示项目 go-server-js-testShop”，用于验证go-server-js代码转换成go语言
 
-https://github.com/zengming00/node-testShop
+https://github.com/zengming00/go-server-js-testShop
 
 # 后台地址
 
