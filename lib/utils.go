@@ -1,9 +1,23 @@
 package lib
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 func CurrentTimeMillis() int64 {
 	return time.Now().UnixNano() / int64(time.Millisecond)
+}
+
+func ParsePositiveInt(s string, def int) int {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		i = def
+	}
+	if i < 0 {
+		return -i
+	}
+	return i
 }
 
 func remove(slice []int, i int) []int {
