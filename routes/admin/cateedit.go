@@ -1,14 +1,12 @@
 package admin
 
 import (
-	"fmt"
 	"html/template"
 
-	"github.com/zengming00/go-testShop/lib"
-	"github.com/zengming00/go-testShop/models"
+	"github.com/zengming00/go-testShop/framework"
 )
 
-func CateEdit(ctx *lib.HandlerContext) {
+func CateEdit(ctx *framework.HandlerContext) {
 	var isAdmin = false
 	if v, ok := ctx.GetSessionVal("isAdmin"); ok {
 		isAdmin = v.(bool)
@@ -23,17 +21,16 @@ func CateEdit(ctx *lib.HandlerContext) {
 			ctx.Send("oid is null")
 			return
 		}
-		var allData = models.Cates.Find()
-		var cate = models.Cates.GetByOid(oid)
+		var allData = ctx.Cates.Find()
+		var cate = ctx.Cates.GetByOid(oid)
 		if len(cate) == 0 {
 			ctx.Send("cate not found")
 			return
 		}
 		var data = map[string]interface{}{
-			"tree": models.Cates.GetTree(allData),
+			"tree": ctx.Cates.GetTree(allData),
 			"cate": cate[0],
 		}
-		fmt.Printf("%#v \n", data["cate"])
 		ctx.Render("./views/admin/cateedit.html", data, template.FuncMap{
 			"genList": func(v int) []int {
 				return make([]int, v)
@@ -55,7 +52,7 @@ func CateEdit(ctx *lib.HandlerContext) {
 			ctx.Send("错误的上级栏目")
 			return
 		}
-		models.Cates.UpdateByOid(cat_id, data)
+		ctx.Cates.UpdateByOid(cat_id, data)
 		ctx.Redirect("./catelist.go")
 	}
 }

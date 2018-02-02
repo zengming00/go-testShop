@@ -3,11 +3,11 @@ package admin
 import (
 	"html/template"
 
-	"github.com/zengming00/go-testShop/lib"
+	"github.com/zengming00/go-testShop/framework"
 	"github.com/zengming00/go-testShop/models"
 )
 
-func CateAdd(ctx *lib.HandlerContext) {
+func CateAdd(ctx *framework.HandlerContext) {
 	var isAdmin = false
 	if v, ok := ctx.GetSessionVal("isAdmin"); ok {
 		isAdmin = v.(bool)
@@ -17,9 +17,9 @@ func CateAdd(ctx *lib.HandlerContext) {
 	}
 
 	if ctx.R.Method == "GET" {
-		var allData = models.Cates.Find()
+		var allData = ctx.Cates.Find()
 		var data = map[string]interface{}{
-			"tree": models.Cates.GetTree(allData),
+			"tree": ctx.Cates.GetTree(allData),
 		}
 		ctx.Render("./views/admin/cateadd.html", data, template.FuncMap{
 			"genList": func(v int) []int {
@@ -36,7 +36,7 @@ func CateAdd(ctx *lib.HandlerContext) {
 			"parent_id": ctx.R.FormValue("parent_id"),
 			"oid":       models.MakeOid(),
 		}
-		models.Cates.Add(data)
+		ctx.Cates.Add(data)
 		ctx.Redirect("./catelist.go")
 	}
 }

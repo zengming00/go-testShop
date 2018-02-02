@@ -12,6 +12,45 @@ func NewGoodsModel(db *sql.DB) *GoodsModel {
 	return &GoodsModel{db}
 }
 
+func (g *GoodsModel) Find(where, opt map[string]interface{}) []*Good {
+	var sql = "select * from goods"
+	r, err := Find(sql, where, opt, g.Query)
+	if err != nil {
+		panic(err)
+	}
+	return r.([]*Good)
+}
+
+func (g *GoodsModel) Count(where map[string]interface{}) int {
+	var rows *sql.Rows
+	var err error
+	var sql = "select count(*) from goods"
+
+	if where != nil {
+		var r = BuildWhere(where)
+		rows, err = g.db.Query(sql+r.Where, r.Args...)
+	} else {
+		rows, err = g.db.Query(sql)
+	}
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	var ret = 0
+	for rows.Next() {
+		var err = rows.Scan(&ret)
+		if err != nil {
+			panic(err)
+		}
+		break
+	}
+	err = rows.Err()
+	if err != nil {
+		panic(err)
+	}
+	return ret
+}
+
 type Good struct {
 	Id           int
 	Oid          string

@@ -149,7 +149,7 @@ func BuildWhere(where map[string]interface{}) *BuildWhereResult {
 	}
 }
 
-type QueryFunc = func(sql string, params []interface{}) (interface{}, error)
+type QueryFunc = func(sql string, params ...interface{}) (interface{}, error)
 
 func Find(sql string, where, opt map[string]interface{}, queryFunc QueryFunc) (interface{}, error) {
 	var params = make([]interface{}, 0)
@@ -176,7 +176,7 @@ func Find(sql string, where, opt map[string]interface{}, queryFunc QueryFunc) (i
 		params = append(params, skip)
 		params = append(params, limit)
 	}
-	return queryFunc(sql, params)
+	return queryFunc(sql, params...)
 }
 
 func Add(db *sql.DB, table string, data map[string]interface{}) (*DMLResult, error) {

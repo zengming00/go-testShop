@@ -1,4 +1,4 @@
-package lib
+package framework
 
 import (
 	"encoding/json"
@@ -8,14 +8,19 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
+
+	"github.com/zengming00/go-testShop/lib"
+	"github.com/zengming00/go-testShop/models"
 )
 
 type HandlerContext struct {
+	sessionID  string
 	W          http.ResponseWriter
 	R          *http.Request
-	SessionMgr *SessionMgr
-	CacheMgr   *CacheMgr
-	sessionID  string
+	SessionMgr *lib.SessionMgr
+	CacheMgr   *lib.CacheMgr
+	Cates      *models.CatesModel
+	Goods      *models.GoodsModel
 }
 
 func (c *HandlerContext) GetQuery() map[string]string {

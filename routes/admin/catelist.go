@@ -1,9 +1,10 @@
 package admin
 
-import "github.com/zengming00/go-testShop/lib"
-import "github.com/zengming00/go-testShop/models"
+import (
+	"github.com/zengming00/go-testShop/framework"
+)
 
-func CateList(ctx *lib.HandlerContext) {
+func CateList(ctx *framework.HandlerContext) {
 	var isAdmin = false
 	if v, ok := ctx.GetSessionVal("isAdmin"); ok {
 		isAdmin = v.(bool)
@@ -12,9 +13,9 @@ func CateList(ctx *lib.HandlerContext) {
 		ctx.Redirect("/routes/admin/login.go")
 	}
 
-	var allData = models.Cates.Find()
+	var allData = ctx.Cates.Find()
 	var data = map[string]interface{}{
-		"tree": models.Cates.GetTree(allData),
+		"tree": ctx.Cates.GetTree(allData),
 	}
 	ctx.Render("./views/admin/catelist.html", data, nil)
 }
