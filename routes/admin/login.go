@@ -7,7 +7,7 @@ import (
 func Login(ctx *lib.HandlerContext) {
 	if ctx.R.Method == "GET" {
 		var filename = "./views/admin/login.html"
-		ctx.Render(filename, nil)
+		ctx.Render(filename, nil, nil)
 		return
 	}
 

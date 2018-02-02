@@ -20,7 +20,11 @@ type CateTreeItem struct {
 	Level     int
 }
 
-func (c *CatesModel) GetTree(rows []*Cate, pid string, level int) []*CateTreeItem {
+func (c *CatesModel) GetTree(rows []*Cate) []*CateTreeItem {
+	return c.getTree(rows, "0", 0)
+}
+
+func (c *CatesModel) getTree(rows []*Cate, pid string, level int) []*CateTreeItem {
 	var tree = make([]*CateTreeItem, 0)
 	for _, row := range rows {
 		if row.Parent_id == pid {
@@ -31,7 +35,7 @@ func (c *CatesModel) GetTree(rows []*Cate, pid string, level int) []*CateTreeIte
 				Parent_id: row.Parent_id,
 				Level:     level,
 			})
-			tree = append(tree, c.GetTree(rows, row.Oid, level+1)...)
+			tree = append(tree, c.getTree(rows, row.Oid, level+1)...)
 		}
 	}
 	return tree
@@ -71,12 +75,12 @@ func (c *CatesModel) GetChildCates(rows []*Cate, catid string) []string {
 	return arr
 }
 
-func (c *CatesModel) Find() ([]*Cate, error) {
-	r, err := c.Query("select * from cates", []interface{}{})
+func (c *CatesModel) Find() []*Cate {
+	r, err := c.Query("select * from cates")
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-	return r.([]*Cate), nil
+	return r.([]*Cate)
 }
 
 type Cate struct {
@@ -88,7 +92,7 @@ type Cate struct {
 	Created_at string
 }
 
-func (c *CatesModel) Query(sql string, params []interface{}) (interface{}, error) {
+func (c *CatesModel) Query(sql string, params ...interface{}) (interface{}, error) {
 	rows, err := c.db.Query(sql, params...)
 	if err != nil {
 		return nil, err
@@ -110,28 +114,38 @@ func (c *CatesModel) Query(sql string, params []interface{}) (interface{}, error
 	return ret, nil
 }
 
-// exports.add = function add(data) {
-//   var r = dbUtils.exportKeyValues(data);
-//   var sql = dbUtils.makeInsertSql('cates', r.keys);
-//   return dbUtils.insert(db, sql, r.values);
-// }
-
-// exports.delByOid = function delByOid(oid) {
-//   return dbUtils.delete(db, 'delete from cates where oid=?', [oid]);
-// }
-
-func (c *CatesModel) GetByOid(oid string) ([]*Cate, error) {
-	r, err := c.Query("select * from cates where oid = ?", []interface{}{oid})
+func (c *CatesModel) Add(data map[string]interface{}) *DMLResult {
+	var r = ExportKeyValues(data)
+	var sql = MakeInsertSql("cates", r.Keys)
+	var ret, err = DML(c.db, sql, r.Values...)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-	return r.([]*Cate), nil
+	return ret
 }
 
-// exports.updateByOid = function updateByOid(oid, data) {
-//   var r = dbUtils.exportKeyValues(data)
-//   var sql = dbUtils.makeUpdateSql('cates', r.keys, ['oid'])
-//   // 添加where条件值
-//   r.values.push(oid)
-//   return dbUtils.update(db, sql, r.values)
-// }
+func (c *CatesModel) DelByOid(oid string) *DMLResult {
+	r, err := DML(c.db, "delete from cates where oid=?", oid)
+	if err != nil {
+		panic(err)
+	}
+	return r
+}
+
+func (c *CatesModel) GetByOid(oid string) []*Cate {
+	r, err := c.Query("select * from cates where oid = ?", oid)
+	if err != nil {
+		panic(err)
+	}
+	return r.([]*Cate)
+}
+
+func (c *CatesModel) UpdateByOid(oid string, data map[string]interface{}) *DMLResult {
+	var r = ExportKeyValues(data)
+	var sql = MakeUpdateSql("cates", r.Keys, "oid")
+	var ret, err = DML(c.db, sql, append(r.Values, oid)...)
+	if err != nil {
+		panic(err)
+	}
+	return ret
+}

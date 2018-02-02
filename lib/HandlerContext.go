@@ -18,22 +18,23 @@ type HandlerContext struct {
 	sessionID  string
 }
 
-func (c *HandlerContext) GetQuery() (map[string]string, error) {
-	vs, err := url.ParseQuery(c.R.URL.RawQuery)
-	if err != nil {
-		return nil, err
-	}
-
-	var vv = map[string][]string(vs)
+func (c *HandlerContext) GetQuery() map[string]string {
 	var query = make(map[string]string)
-
-	for k, v := range vv {
-		query[k] = v[0]
+	vs, err := url.ParseQuery(c.R.URL.RawQuery)
+	if err == nil {
+		var vv = map[string][]string(vs)
+		for k, v := range vv {
+			query[k] = v[0]
+		}
 	}
-	return query, nil
+	return query
 }
 
-func (c *HandlerContext) Render(filename string, data map[string]interface{}) {
+func (c *HandlerContext) Send(text string) {
+	c.W.Write([]byte(text))
+}
+
+func (c *HandlerContext) Render(filename string, data map[string]interface{}, funcMap template.FuncMap) {
 	defer func() {
 		if err := recover(); err != nil {
 			fmt.Println(err)
@@ -42,7 +43,7 @@ func (c *HandlerContext) Render(filename string, data map[string]interface{}) {
 	}()
 
 	tplName := filepath.Base(filename)
-	tpl, err := template.New(tplName).ParseFiles(filename)
+	tpl, err := template.New(tplName).Funcs(funcMap).ParseFiles(filename)
 	if err != nil {
 		panic(err)
 	}

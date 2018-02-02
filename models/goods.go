@@ -8,6 +8,10 @@ type GoodsModel struct {
 	db *sql.DB
 }
 
+func NewGoodsModel(db *sql.DB) *GoodsModel {
+	return &GoodsModel{db}
+}
+
 type Good struct {
 	Id           int
 	Oid          string
@@ -25,7 +29,7 @@ type Good struct {
 	Updated_at   string
 }
 
-func (g *GoodsModel) Query(sql string, params []interface{}) (interface{}, error) {
+func (g *GoodsModel) Query(sql string, params ...interface{}) (interface{}, error) {
 	rows, err := g.db.Query(sql, params...)
 	if err != nil {
 		return nil, err

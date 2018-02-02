@@ -8,6 +8,7 @@ import (
 
 var db *sql.DB
 var Cates *CatesModel
+var Goods *GoodsModel
 
 func init() {
 	var err error
@@ -17,4 +18,5 @@ func init() {
 	}
 	db.SetMaxOpenConns(100)
 	Cates = NewCatesModel(db)
+	Goods = NewGoodsModel(db)
 }

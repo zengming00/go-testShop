@@ -14,7 +14,7 @@ type DMLResult struct {
 	RowsAffected int64
 }
 
-func DML(db *sql.DB, sql string, args []interface{}) (*DMLResult, error) {
+func DML(db *sql.DB, sql string, args ...interface{}) (*DMLResult, error) {
 	stmt, err := db.Prepare(sql)
 	if err != nil {
 		return nil, err
@@ -62,8 +62,8 @@ func MakeInsertSql(table string, fields []string) string {
 	return fmt.Sprintf("insert into %s(%s) values(%s)", table, strings.Join(fields, ","), MakePlaceStr(len(fields)))
 }
 
-func MakeUpdateSql(table string, fields []string, wheres []string) string {
-	return fmt.Sprintf("update %s set %s where %s", table, MakeFieldPlaceStr(fields), MakeFieldPlaceStr(wheres))
+func MakeUpdateSql(table string, fields []string, where string) string {
+	return fmt.Sprintf("update %s set %s where %s=?", table, MakeFieldPlaceStr(fields), where)
 }
 
 func MakeOid() string {
