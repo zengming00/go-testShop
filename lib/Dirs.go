@@ -14,10 +14,10 @@ type DateDir struct {
 /**
  * 获取日期文件夹（不存在则自动创建）
  */
-func GetDateDir() (*DateDir, error) {
+func GetDateDir() *DateDir {
 	baseDir, err := os.Getwd()
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	var date = GetCnDate()
 	var dir = fmt.Sprintf("/public/uploads/%.4d/%.2d/%.2d/", date.Year(), int(date.Month()), date.Day())
@@ -25,7 +25,7 @@ func GetDateDir() (*DateDir, error) {
 
 	err = os.MkdirAll(path, 0666)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-	return &DateDir{Dir: dir, Fullpath: path}, nil
+	return &DateDir{Dir: dir, Fullpath: path}
 }

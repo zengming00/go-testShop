@@ -1,9 +1,8 @@
 package admin
 
 import (
-	"html/template"
-
 	"github.com/zengming00/go-testShop/framework"
+	"github.com/zengming00/go-testShop/lib"
 )
 
 func CateEdit(ctx *framework.HandlerContext) {
@@ -31,11 +30,7 @@ func CateEdit(ctx *framework.HandlerContext) {
 			"tree": ctx.Cates.GetTree(allData),
 			"cate": cate[0],
 		}
-		ctx.Render("./views/admin/cateedit.html", data, template.FuncMap{
-			"genList": func(v int) []int {
-				return make([]int, v)
-			},
-		})
+		ctx.Render("./views/admin/cateedit.html", data, lib.FuncMap)
 		return
 	}
 

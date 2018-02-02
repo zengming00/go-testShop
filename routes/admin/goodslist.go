@@ -48,14 +48,6 @@ func GoodsList(ctx *framework.HandlerContext) {
 			"goods":    ctx.Goods.Find(where, opt),
 		}
 
-		ctx.Render("./views/admin/goodslist.html", tplData, template.FuncMap{
-			"genList": func(v int) []int {
-				return make([]int, v)
-			},
-			"toDateStr": func(s string) string {
-				// todo 转成中国时间
-				return s
-			},
-		})
+		ctx.Render("./views/admin/goodslist.html", tplData, lib.FuncMap)
 	}
 }

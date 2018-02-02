@@ -40,6 +40,7 @@ func main() {
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
 
+	http.HandleFunc("/routes/admin/goodsadd.go", mHandle(admin.GoodsAdd))
 	http.HandleFunc("/routes/admin/goodslist.go", mHandle(admin.GoodsList))
 	http.HandleFunc("/routes/admin/login.go", mHandle(admin.Login))
 	http.HandleFunc("/routes/admin/catelist.go", mHandle(admin.CateList))

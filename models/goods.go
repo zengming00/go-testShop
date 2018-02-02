@@ -21,6 +21,16 @@ func (g *GoodsModel) Find(where, opt map[string]interface{}) []*Good {
 	return r.([]*Good)
 }
 
+func (g *GoodsModel) Add(data map[string]interface{}) *DMLResult {
+	var r = ExportKeyValues(data)
+	var sql = MakeInsertSql("goods", r.Keys)
+	var ret, err = DML(g.db, sql, r.Values...)
+	if err != nil {
+		panic(err)
+	}
+	return ret
+}
+
 func (g *GoodsModel) Count(where map[string]interface{}) int {
 	var rows *sql.Rows
 	var err error

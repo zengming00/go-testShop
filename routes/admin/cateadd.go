@@ -1,9 +1,8 @@
 package admin
 
 import (
-	"html/template"
-
 	"github.com/zengming00/go-testShop/framework"
+	"github.com/zengming00/go-testShop/lib"
 	"github.com/zengming00/go-testShop/models"
 )
 
@@ -21,11 +20,7 @@ func CateAdd(ctx *framework.HandlerContext) {
 		var data = map[string]interface{}{
 			"tree": ctx.Cates.GetTree(allData),
 		}
-		ctx.Render("./views/admin/cateadd.html", data, template.FuncMap{
-			"genList": func(v int) []int {
-				return make([]int, v)
-			},
-		})
+		ctx.Render("./views/admin/cateadd.html", data, lib.FuncMap)
 		return
 	}
 
