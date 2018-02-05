@@ -16,7 +16,7 @@
 </head>
     
 <body>
-    <% include ./views/header.ejs %>
+    {{include "./views/header.html" .}}
     <div id="body">
         <div class="body_l">
             <div class="subsearch">
@@ -47,7 +47,7 @@
             }
             </script>
             <div class="subnav">
-				<% include ./views/subnav.ejs %>
+				{{include "./views/subnav.html" .}}
             </div>
             <div class="subinfo_header">
                 <div class="left subinfo_header_left">
@@ -80,28 +80,28 @@
             </div>
             <div class="subinfo_body_top10">
                 <ul>
-<% history.forEach(function(h){ %>
+{{range .history}}
                     <li>
                         <div class="subinfo_body_top10_l">
-                            <a href="/routes/goods.js?oid=<%=h.oid%>">
-                                <img src="<%=h.goods_img%>" alt=""
+                            <a href="/routes/goods.go?oid={{.Oid}}">
+                                <img src="{{.Goods_img}}" alt=""
                                 class="samllimg" />
                             </a>
                         </div>
                         <div class="subinfo_body_top10_r">
                             <p class="subinfo_body_top10_r_1">
-                                <a href="/routes/goods.js?oid=<%=h.oid%>">
-                                    <%=h.goods_name%>
+                                <a href="/routes/goods.go?oid={{.Oid}}">
+                                    {{.Goods_name}}
                                 </a>
                             </p>
                             <p class="subinfo_body_top10_r_3">
-                                ￥<%=h.shop_price%>元
+                                ￥{{.Shop_price}}元
                             </p>
                         </div>
                         <div class="clear">
                         </div>
                     </li>
-<% }) %>
+{{end}}
                 </ul>
             </div>
             <div class="subinfo_footer">
@@ -131,21 +131,21 @@
                 </div>
             </div>
             <ul class="productlist">
-<% bestGs.forEach(function(b){ %>
+{{range .bestGs}}
                 <li>
-                    <a href="/routes/goods.js?oid=<%=b.oid%>">
-                        <img src="<%=b.goods_img%>" alt="<%=b.goods_name%>" style="width:100px;height:100px;"/>
+                    <a href="/routes/goods.go?oid={{.Oid}}">
+                        <img src="{{.Goods_img}}" alt="{{.Goods_name}}" style="width:100px;height:100px;"/>
                     </a>
                     <p class="pname" style="padding: 0 30px;">
-                        <a href="/routes/goods.js?oid=<%=b.oid%>" title="<%=b.goods_name%>">
-                            <%=b.goods_name%>
+                        <a href="/routes/goods.go?oid={{.Oid}}" title="{{.Goods_name}}">
+                            {{.Goods_name}}
                         </a>
                     </p>
                     <p class="price">
-                        ￥<%=b.shop_price%>元
+                        ￥{{.Shop_price}}元
                     </p>
                 </li>
-<% }) %>
+{{end}}
             </ul>
             <div class="clear"></div>
             <div class="mainheader">
@@ -156,21 +156,21 @@
                 </div>
             </div>
             <ul class="productlist">
-<% hotGs.forEach(function(h){ %>
+{{range .hotGs}}
                 <li>
-                    <a href="/routes/goods.js?oid=<%=h.oid%>">
-                        <img src="<%=h.goods_img%>" alt="<%=h.goods_name%>" style="width:100px;height:100px;"/>
+                    <a href="/routes/goods.go?oid={{.Oid}}">
+                        <img src="{{.Goods_img}}" alt="{{.Goods_name}}" style="width:100px;height:100px;"/>
                     </a>
                     <p class="pname" style="padding: 0 30px;">
-                        <a href="/routes/goods.js?oid=<%=h.oid%>" title="<%=h.goods_name%>">
-                            <%=h.goods_name%>
+                        <a href="/routes/goods.go?oid={{.Oid}}" title="{{.Goods_name}}">
+                            {{.Goods_name}}
                         </a>
                     </p>
                     <p class="price">
-                        ￥<%=h.shop_price%>元
+                        ￥{{.Shop_price}}元
                     </p>
                 </li>
-<% }) %>
+{{end}}
             </ul>
             <div class="clear"></div>
             <div class="mainheader">
@@ -181,28 +181,28 @@
                 </div>
             </div>
             <ul class="productlist">
-<% newGs.forEach(function(n){ %>
+{{range .newGs}}
                 <li>
-                    <a href="/routes/goods.js?oid=<%=n.oid%>">
-                        <img src="<%=n.goods_img%>" alt="<%=n.goods_name%>" style="width:100px;height:100px;"/>
+                    <a href="/routes/goods.go?oid={{.Oid}}">
+                        <img src="{{.Goods_img}}" alt="{{.Goods_name}}" style="width:100px;height:100px;"/>
                     </a>
                     <p class="pname" style="padding: 0 30px;">
-                        <a href="/routes/goods.js?oid=<%=n.oid%>" title="<%=n.goods_name%>">
-                            <%=n.goods_name%>
+                        <a href="/routes/goods.go?oid={{.Oid}}" title="{{.Goods_name}}">
+                            {{.Goods_name}}
                         </a>
                     </p>
                     <p class="price">
-                        ￥<%=n.shop_price%>元
+                        ￥{{.Shop_price}}元
                     </p>
                 </li>
-<% }) %>
+{{end}}
             </ul>
         </div>
         <div class="clear">
         </div>
     </div>
     </div>
-    <% include ./views/footer.html %>
+    {{include "./views/footer.html" .}}
 </body>
 
 </html>

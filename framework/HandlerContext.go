@@ -139,3 +139,34 @@ func (c *HandlerContext) SetUser(user *models.User) {
 	}
 	c.SetSessionVal(USER_KEY, user)
 }
+
+const HISTORY_KEY = "__histroy"
+
+func (c *HandlerContext) AddHistroy(gs *models.Good) {
+	var history = c.GetHistroys()
+	if history == nil {
+		history = make([]*models.Good, 0, 6)
+	}
+	var temp = make([]*models.Good, 0, 6)
+	temp = append(temp, gs)     // 插入到前面
+	for _, v := range history { // 过滤重复数据
+		if v.Id != gs.Id {
+			temp = append(temp, v)
+		}
+	}
+	// 只保留5个
+	var llen = len(temp)
+	if llen > 5 {
+		llen = 5
+	}
+	c.SetSessionVal(HISTORY_KEY, temp[:llen])
+}
+
+func (c *HandlerContext) GetHistroys() []*models.Good {
+	if v, ok := c.GetSessionVal(HISTORY_KEY); ok {
+		if g, ok := v.([]*models.Good); ok {
+			return g
+		}
+	}
+	return nil
+}

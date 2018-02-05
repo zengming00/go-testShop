@@ -14,30 +14,8 @@ func Goods(ctx *framework.HandlerContext) {
 			ctx.Send("goods not found")
 			return
 		}
-
+		ctx.AddHistroy(gs)
 		var cats = ctx.Cates.Find()
-
-		//   //添加到历史记录
-		//   var gsData = {
-		//     oid: gs.oid,
-		//     goods_img: gs.goods_img,
-		//     goods_name: gs.goods_name,
-		//     shop_price: gs.shop_price
-		//   };
-		//   var history = session.get('history') ? JSON.parse(session.get('history')) : [];
-		//   var temp = [];
-		//   for (var i = 0; i < history.length; i++) { //过滤重复数据
-		//     if (history[i]._id != gsData._id) {
-		//       temp.push(history[i]);
-		//     }
-		//   }
-		//   temp.unshift(gsData);//插入到前面
-		//   if (temp.length > 5) {
-		//     temp.pop();
-		//   }
-		//   session.set('history', JSON.stringify(history));
-
-		//渲染
 		var data = map[string]interface{}{
 			"gs":     gs,
 			"tree":   ctx.Cates.GetTree(cats),

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -61,17 +60,7 @@ func main() {
 		// todo
 	})
 
-	http.HandleFunc("/test", mHandle(func(ctx *framework.HandlerContext) {
-		if ctx.R.RequestURI == "/favicon.ico" {
-			return
-		}
-		query := ctx.GetQuery()
-
-		pg := lib.NewPage(10, 8, ctx.R.RequestURI, query)
-		fmt.Println(pg.FirstRow, pg.ListRows)
-		str := pg.Show()
-		ctx.W.Write([]byte(str))
-	}))
+	http.HandleFunc("/", mHandle(routes.Index))
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

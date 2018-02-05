@@ -56,14 +56,14 @@
 <% history.forEach(function(h){ %>
                     <li>
                         <div class="subinfo_body_top10_l">
-                            <a href="/routes/goods.js?oid=<%=h.oid%>">
+                            <a href="/routes/goods.go?oid=<%=h.oid%>">
                                 <img src="<%=h.goods_img%>" alt=""
                                 class="samllimg" />
                             </a>
                         </div>
                         <div class="subinfo_body_top10_r">
                             <p class="subinfo_body_top10_r_1">
-                                <a href="/routes/goods.js?oid=<%=h.oid%>" title="">
+                                <a href="/routes/goods.go?oid=<%=h.oid%>" title="">
                                     <%=h.goods_name%>
                                 </a>
                             </p>
@@ -93,7 +93,7 @@
                     </a>
 <% family.forEach(function(f){ %>
 	                    <code> &gt; </code>
-	                    <a href="/routes/category.js?cat_id=<%=f.oid%>">
+	                    <a href="/routes/category.go?cat_id=<%=f.oid%>">
 	                        <%=f.cat_name%>
 	                    </a>
 <% }); %>
@@ -200,11 +200,11 @@
 <% } %>
 <% gs.forEach(function(g) { %>
                 <li>
-                    <a href="/routes/goods.js?oid=<%=g.oid%>">
+                    <a href="/routes/goods.go?oid=<%=g.oid%>">
                         <img src="<%=g.goods_img%>" alt="<%=g.goods_name%>" width="100px" height="100px"/>
                     </a>
                     <p class="pname" style="    padding: 0 30px;">
-                        <a href="/routes/goods.js?oid=<%=g.oid%>" title="<%=g.goods_name%>">
+                        <a href="/routes/goods.go?oid=<%=g.oid%>" title="<%=g.goods_name%>">
                             <%=g.goods_name%>
                         </a>
                     </p>
