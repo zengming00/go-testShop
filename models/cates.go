@@ -115,9 +115,7 @@ func (c *CatesModel) Query(sql string, params ...interface{}) (interface{}, erro
 }
 
 func (c *CatesModel) Add(data map[string]interface{}) *DMLResult {
-	var r = ExportKeyValues(data)
-	var sql = MakeInsertSql("cates", r.Keys)
-	var ret, err = DML(c.db, sql, r.Values...)
+	var ret, err = Add(c.db, "cates", data)
 	if err != nil {
 		panic(err)
 	}

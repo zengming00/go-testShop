@@ -30,9 +30,7 @@ func (g *GoodsModel) Find(where, opt map[string]interface{}) []*Good {
 }
 
 func (g *GoodsModel) Add(data map[string]interface{}) *DMLResult {
-	var r = ExportKeyValues(data)
-	var sql = MakeInsertSql("goods", r.Keys)
-	var ret, err = DML(g.db, sql, r.Values...)
+	var ret, err = Add(g.db, "goods", data)
 	if err != nil {
 		panic(err)
 	}
@@ -48,29 +46,7 @@ func (g *GoodsModel) DelByOid(oid string) *DMLResult {
 }
 
 func (g *GoodsModel) Count(where map[string]interface{}) int {
-	var rows *sql.Rows
-	var err error
-	var sql = "select count(*) from goods"
-
-	if where != nil {
-		var r = BuildWhere(where)
-		rows, err = g.db.Query(sql+r.Where, r.Args...)
-	} else {
-		rows, err = g.db.Query(sql)
-	}
-	if err != nil {
-		panic(err)
-	}
-	defer rows.Close()
-	var ret = 0
-	for rows.Next() {
-		var err = rows.Scan(&ret)
-		if err != nil {
-			panic(err)
-		}
-		break
-	}
-	err = rows.Err()
+	var ret, err = Count(g.db, "goods", where)
 	if err != nil {
 		panic(err)
 	}

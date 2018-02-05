@@ -2,7 +2,6 @@ package framework
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -40,15 +39,7 @@ func (c *HandlerContext) Send(text string) {
 }
 
 func (c *HandlerContext) Render(filename string, data map[string]interface{}, funcMap template.FuncMap) {
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println(err)
-			c.W.WriteHeader(http.StatusServiceUnavailable)
-		}
-	}()
-
-	tplName := filepath.Base(filename)
-	tpl, err := template.New(tplName).Funcs(funcMap).ParseFiles(filename)
+	tpl, err := template.New(filepath.Base(filename)).Funcs(funcMap).ParseFiles(filename)
 	if err != nil {
 		panic(err)
 	}
@@ -109,4 +100,42 @@ func (c *HandlerContext) GetSessionVal(key string) (value interface{}, ok bool) 
 		c.StartSession()
 	}
 	return c.SessionMgr.GetSessionVal(c.sessionID, key)
+}
+
+const CART_KEY = "__cart"
+
+func (c *HandlerContext) GetCart() *lib.Cart {
+	if v, ok := c.GetSessionVal(CART_KEY); ok {
+		if cart, ok := v.(*lib.Cart); ok {
+			return cart
+		}
+	}
+	var cart = lib.NewCart()
+	c.SetSessionVal(CART_KEY, cart)
+	return cart
+}
+
+func (c *HandlerContext) SetCart(cart *lib.Cart) {
+	if cart == nil {
+		return
+	}
+	c.SetSessionVal(CART_KEY, cart)
+}
+
+const USER_KEY = "__user"
+
+func (c *HandlerContext) GetUser() *models.User {
+	if v, ok := c.GetSessionVal(USER_KEY); ok {
+		if u, ok := v.(*models.User); ok {
+			return u
+		}
+	}
+	return nil
+}
+
+func (c *HandlerContext) SetUser(user *models.User) {
+	if user == nil {
+		return
+	}
+	c.SetSessionVal(USER_KEY, user)
 }

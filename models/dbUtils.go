@@ -185,3 +185,35 @@ func Add(db *sql.DB, table string, data map[string]interface{}) (*DMLResult, err
 	var sql = MakeInsertSql(table, r.Keys)
 	return DML(db, sql, r.Values)
 }
+
+func Count(db *sql.DB, table string, where map[string]interface{}) (int, error) {
+	var rows *sql.Rows
+	var err error
+	var ret = 0
+	var sql = "select count(*) from " + table
+
+	if where != nil {
+		var r = BuildWhere(where)
+		rows, err = db.Query(sql+r.Where, r.Args...)
+	} else {
+		rows, err = db.Query(sql)
+	}
+
+	if err != nil {
+		return 0, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var err = rows.Scan(&ret)
+		if err != nil {
+			return 0, err
+		}
+		break
+	}
+	err = rows.Err()
+	if err != nil {
+		return 0, err
+	}
+	return ret, nil
+}

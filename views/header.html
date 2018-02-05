@@ -5,15 +5,15 @@
         <div class="header_top_m">
             <div style='float:left' id="ECS_MEMBERZONE">
                 欢迎光临本店
-            <% if(user) { %>
-                <%=user.userName%>
-                <a href="/routes/user/logout.js">退出登录</a>
-            <% } else { %>
-                <a href="/routes/user/login.js">会员登录</a>|
-                <a href="/routes/user/reg.js">免费注册</a>
-            <% } %>
+            {{if .user}}
+                {{.user.UserName}}
+                <a href="/routes/user/logout.go">退出登录</a>
+            {{else}}
+                <a href="/routes/user/login.go">会员登录</a>|
+                <a href="/routes/user/reg.go">免费注册</a>
+            {{end}}
                 <label id="myaccount">
-                    <a href="/routes/user/info.js">我的帐户</a>
+                    <a href="/routes/user/info.go">我的帐户</a>
                 </label>
                 <label id="helpcenter">
                     <a href="javascript:void(0)">
@@ -28,7 +28,7 @@
                     </a>
                 </label>
                 <label id="sethome">
-                    <a href="/routes/admin/index.js" >
+                    <a href="/routes/admin/index.go" >
                         后台管理
                     </a>
                 </label>
@@ -66,15 +66,15 @@
                     首页
                 </a>
             </li>
-            <% tree.forEach(function (t) { %>
-            <% if(t.parent_id == 0){ %>
+            {{range .tree}}
+              {{if eq .Parent_id "0"}}
             <li>
-                <a href="/routes/category.js?cat_id=<%=t.oid%>" id="">
-                    <%=t.cat_name%>
+                <a href="/routes/category.go?cat_id={{.Oid}}" id="">
+                    {{.Cat_name}}
                 </a>
             </li>
-            <% } %>
-            <% }) %>
+              {{end}}
+            {{end}}
             <li>
                 <a href="javascript:void(0)">
                     留言板
@@ -86,8 +86,8 @@
         <SPAN class="navr_recent_l1">
                 　
         </SPAN>
-        <a href="/routes/flow/cart.js" title="查看购物车">
-            您的购物车中有 <%=cart.items().length%> 件商品，总计金额 ￥<%=cart.getTotalMoney()%>元。
+        <a href="/routes/flow/cart.go" title="查看购物车">
+            您的购物车中有 {{len .cart.Items}} 件商品，总计金额 ￥{{.cart.GetTotalMoney}}元。
         </a>
         <EM>
             &nbsp;&nbsp;&nbsp;&nbsp;

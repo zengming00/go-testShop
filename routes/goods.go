@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/zengming00/go-testShop/framework"
+	"github.com/zengming00/go-testShop/lib"
 )
 
 func Goods(ctx *framework.HandlerContext) {
@@ -14,8 +15,7 @@ func Goods(ctx *framework.HandlerContext) {
 			return
 		}
 
-		ctx.Json(gs)
-		// var cats = ctx.Cates.Find()
+		var cats = ctx.Cates.Find()
 
 		//   //添加到历史记录
 		//   var gsData = {
@@ -37,14 +37,14 @@ func Goods(ctx *framework.HandlerContext) {
 		//   }
 		//   session.set('history', JSON.stringify(history));
 
-		//   //渲染
-		//   var data = {
-		//     gs: gs,
-		//     tree: cates.getTree(cats),
-		//     family: cates.getFamily(cats, gs.cat_id),
-		//     user: session.getUser(),
-		//     cart: session.getCart(),
-		//   };
-		//   res.render('./views/goods.ejs', data);
+		//渲染
+		var data = map[string]interface{}{
+			"gs":     gs,
+			"tree":   ctx.Cates.GetTree(cats),
+			"family": ctx.Cates.GetFamily(cats, gs.Cat_id),
+			"user":   ctx.GetUser(),
+			"cart":   ctx.GetCart(),
+		}
+		ctx.Render("./views/goods.html", data, lib.FuncMap)
 	}
 }
