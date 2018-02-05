@@ -40,6 +40,7 @@ func main() {
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
 
+	http.HandleFunc("/routes/admin/goodsdel.go", mHandle(admin.GoodsDel))
 	http.HandleFunc("/routes/admin/goodsadd.go", mHandle(admin.GoodsAdd))
 	http.HandleFunc("/routes/admin/goodslist.go", mHandle(admin.GoodsList))
 	http.HandleFunc("/routes/admin/login.go", mHandle(admin.Login))
@@ -54,6 +55,7 @@ func main() {
 	http.HandleFunc("/routes/admin/drag.go", mHandle(admin.Drag))
 	http.HandleFunc("/routes/admin/top.go", mHandle(admin.Top))
 
+	http.HandleFunc("/routes/goods.go", mHandle(routes.Goods))
 	http.HandleFunc("/routes/capcha.go", mHandle(routes.Capcha))
 	http.HandleFunc("/favicon.ico", func(resp http.ResponseWriter, req *http.Request) {
 		// todo

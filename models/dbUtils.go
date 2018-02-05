@@ -158,23 +158,24 @@ func Find(sql string, where, opt map[string]interface{}, queryFunc QueryFunc) (i
 		sql += r.Where
 		params = append(params, r.Args...)
 	}
-
-	if sortv, ok := opt["sort"]; ok {
-		if sort, ok := sortv.(map[string]interface{}); ok {
-			var r = ExportKeyValues(sort)
-			if v, ok := r.Values[0].(string); ok {
-				sql += " order by " + r.Keys[0] + " " + v
+	if opt != nil {
+		if sortv, ok := opt["sort"]; ok {
+			if sort, ok := sortv.(map[string]interface{}); ok {
+				var r = ExportKeyValues(sort)
+				if v, ok := r.Values[0].(string); ok {
+					sql += " order by " + r.Keys[0] + " " + v
+				}
+				// todo
 			}
 			// todo
 		}
-		// todo
-	}
-	var skip, skipOk = opt["skip"]
-	var limit, limitOk = opt["limit"]
-	if skipOk && limitOk {
-		sql += " limit ?,?"
-		params = append(params, skip)
-		params = append(params, limit)
+		var skip, skipOk = opt["skip"]
+		var limit, limitOk = opt["limit"]
+		if skipOk && limitOk {
+			sql += " limit ?,?"
+			params = append(params, skip)
+			params = append(params, limit)
+		}
 	}
 	return queryFunc(sql, params...)
 }

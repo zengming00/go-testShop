@@ -12,6 +12,14 @@ func NewGoodsModel(db *sql.DB) *GoodsModel {
 	return &GoodsModel{db}
 }
 
+func (g *GoodsModel) GetByOid(oid string) *Good {
+	var gs = g.Find(map[string]interface{}{"oid": oid}, nil)
+	if 0 < len(gs) {
+		return gs[0]
+	}
+	return nil
+}
+
 func (g *GoodsModel) Find(where, opt map[string]interface{}) []*Good {
 	var sql = "select * from goods"
 	r, err := Find(sql, where, opt, g.Query)
@@ -29,6 +37,14 @@ func (g *GoodsModel) Add(data map[string]interface{}) *DMLResult {
 		panic(err)
 	}
 	return ret
+}
+
+func (g *GoodsModel) DelByOid(oid string) *DMLResult {
+	var r, err = DML(g.db, "delete from goods where oid=?", oid)
+	if err != nil {
+		panic(err)
+	}
+	return r
 }
 
 func (g *GoodsModel) Count(where map[string]interface{}) int {

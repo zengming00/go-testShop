@@ -131,3 +131,5 @@ func (mgr *SessionMgr) NewSessionID() string {
 	}
 	return base64.URLEncoding.EncodeToString(b)
 }
+
+//////////////////////////////////////////////
