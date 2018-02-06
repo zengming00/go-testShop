@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<% include ./views/header.ejs %>
+{{include "./views/header.html" .}}
 
 <div class="mainot">
 	<script>
@@ -24,14 +24,14 @@
 				password : $('#password').val(),
 				yzm : $('#yzm').val()
 			}
-			$.post('/routes/user/login.js', obj, function (data) {
+			$.post('/routes/user/login.go', obj, function (data) {
 				if(data.error){
 					alert(data.error);
 					$("#verify").click();
 				} else {
 					//注册成功
 					//alert(''+data.success);
-					location.assign('/routes/user/info.js');
+					location.assign('/routes/user/info.go');
 				}
 			},'json');
 		}
@@ -65,13 +65,13 @@
 					<div class="logreg_r">
 						<input id="yzm" name="yzm" type="text" class="input" maxlength="16"  AUTOCOMPLETE="off">
 						<p>
-							<img src="/routes/capcha.js?" id="verify" onclick="this.src+=1"/>
+							<img src="/routes/capcha.go?" id="verify" onclick="this.src+=1"/>
 						</p>
 					</div>
 					<div class="clear"></div>
 				</div>
 				<div class="logreg_dl">
-					<a href="/routes/user/reg.js" style="margin-left: 3em">注册</a>
+					<a href="/routes/user/reg.go" style="margin-left: 3em">注册</a>
 					<input class="buttonred" id="loginButton" style="margin-left: 3em" value="登 录" type="submit" onclick="submitForm()">
 				</div>
 			</form>
@@ -84,7 +84,7 @@
 	<div class="clear"></div>
 </div>
 
-<% include ./views/footer.html %>
+{{include "./views/footer.html" .}}
 
 </body>
 </html>

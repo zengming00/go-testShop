@@ -9,7 +9,7 @@ import (
 
 func Index(ctx *framework.HandlerContext) {
 	if ctx.R.URL.Path != "/" {
-		ctx.W.WriteHeader(http.StatusServiceUnavailable)
+		ctx.W.WriteHeader(http.StatusNotFound)
 		return
 	}
 	if ctx.R.Method == "GET" {

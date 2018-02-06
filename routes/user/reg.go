@@ -63,7 +63,6 @@ func Reg(ctx *framework.HandlerContext) {
 			},
 		}
 		var r = ctx.Users.Find(cond, nil)
-		fmt.Println(r)
 		if len(r) == 0 { // 未找到返回空数组，此时才可以入库
 			var salt = lib.MakeSalt(6)
 			var data = map[string]interface{}{
@@ -75,7 +74,7 @@ func Reg(ctx *framework.HandlerContext) {
 				"salt":     salt,
 			}
 			var r = ctx.Users.Add(data)
-			fmt.Println(r)
+			fmt.Printf("%#v\n", r)
 			ctx.Json(map[string]string{"success": "注册成功！"})
 		} else {
 			ctx.Json(map[string]string{"error": "注册失败！请更换用户名、手机或邮箱"})

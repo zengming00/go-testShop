@@ -1,14 +1,14 @@
 package models
 
 import (
-	"database/sql"
+	msql "database/sql"
 )
 
 type UsersModel struct {
-	db *sql.DB
+	db *msql.DB
 }
 
-func NewUsersModel(db *sql.DB) *UsersModel {
+func NewUsersModel(db *msql.DB) *UsersModel {
 	return &UsersModel{db}
 }
 
@@ -73,11 +73,15 @@ func (u *UsersModel) Query(sql string, params ...interface{}) (interface{}, erro
 	defer rows.Close()
 	var ret = make([]*User, 0)
 	for rows.Next() {
-		user := &User{}
+		var addr = &msql.NullString{}
+		var user = &User{}
 		var err = rows.Scan(&user.Id, &user.Oid, &user.UserName, &user.Phone, &user.Email,
-			&user.Password, &user.Salt, &user.Address, &user.Created_at)
+			&user.Password, &user.Salt, addr, &user.Created_at)
 		if err != nil {
 			return nil, err
+		}
+		if addr.Valid {
+			user.Address = addr.String
 		}
 		ret = append(ret, user)
 	}
