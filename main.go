@@ -73,6 +73,7 @@ func main() {
 	http.HandleFunc("/routes/user/favor.go", mHandle(user.Favor))
 	http.HandleFunc("/routes/user/info.go", mHandle(user.Info))
 	http.HandleFunc("/routes/user/reg.go", mHandle(user.Reg))
+	http.HandleFunc("/routes/user/repwd.go", mHandle(user.Repwd))
 	http.HandleFunc("/routes/user/login.go", mHandle(user.Login))
 	http.HandleFunc("/routes/user/logout.go", mHandle(user.Logout))
 
