@@ -74,6 +74,7 @@ func main() {
 	http.HandleFunc("/routes/user/info.go", mHandle(user.Info))
 	http.HandleFunc("/routes/user/reg.go", mHandle(user.Reg))
 	http.HandleFunc("/routes/user/login.go", mHandle(user.Login))
+	http.HandleFunc("/routes/user/logout.go", mHandle(user.Logout))
 
 	http.HandleFunc("/routes/category.go", mHandle(routes.Category))
 	http.HandleFunc("/routes/goods.go", mHandle(routes.Goods))
