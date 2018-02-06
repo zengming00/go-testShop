@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<% include ./views/header.ejs %>
+{{include "./views/header.html" .}}
 
 <div class="content">
 	<div class="menu">当前位置: <span><a href="">首页</a> <code>&gt;</code> 用户中心</span></div>
@@ -22,25 +22,25 @@
 			<dl>
 				<dt><span>　</span>帐户管理</dt>
 				<dd class="ddor">
-					<a href="/routes/user/ordlist.js">我的订单</a>
+					<a href="/routes/user/ordlist.go">我的订单</a>
 				</dd>
 				<dd>
-					<a href="/routes/user/liuyan.js">我的留言</a>
+					<a href="/routes/user/liuyan.go">我的留言</a>
 				</dd>
 				<dd>
-					<a href="/routes/user/favor.js">我的收藏</a>
+					<a href="/routes/user/favor.go">我的收藏</a>
 				</dd>
 			</dl>
 			<dl>
 				<dt><span>　</span>个人信息管理</dt>
 				<dd>
-					<a href="/routes/user/info.js">用户信息</a>
+					<a href="/routes/user/info.go">用户信息</a>
 				</dd>
 				<dd>
-					<a href="/routes/user/repwd.js">修改密码</a>
+					<a href="/routes/user/repwd.go">修改密码</a>
 				</dd>
 				<dd>
-					<a href="/routes/user/address.js">收货地址</a>
+					<a href="/routes/user/address.go">收货地址</a>
 				</dd>
 			</dl>
 		</div>
@@ -59,16 +59,16 @@
 						<li class="shop_oper">操作</li>
 						<div class="clear"></div>
 					</ul>
-<% ords.forEach(function (ord) { %>
+{{range .ords}}
                     <ul class="ulcollection">
-						<li class="shop_color"><a href="#" class="f6"><%=ord.ordId%></a></li>
-						<li class="cart_much"><%=toDateStr(new Date(ord.created_at))%></li>
-						<li class="cart_nu"><%=ord.money%></li>
-						<li class="shop_name"><%= ord.payState ? '已支付,已发货' : '未支付'%></li>
+						<li class="shop_color"><a href="#" class="f6">{{.OrdId}}</a></li>
+						<li class="cart_much">{{toDateStr .Created_at}}</li>
+						<li class="cart_nu">{{.Money}}</li>
+						<li class="shop_name">{{if .PayState}}已支付,已发货{{else}}未支付{{end}}</li>
 						<li class="shop_oper"><font class="f6">删除</font></li>
 						<div class="clear"></div>
 					</ul>
-<% }); %>
+{{end}}
 					<div class="contno" style="overflow:hidden;height:30px;">
 
 					<div class="page">
@@ -77,7 +77,7 @@
 
 
  <div id="page" class="pagebar">
-  <span class="f_l f6" style="margin-right:10px;">总计 <b><%=ords.length%></b>  个记录</span>
+  <span class="f_l f6" style="margin-right:10px;">总计 <b>{{len .ords}}</b>  个记录</span>
       
  </div>
 
@@ -104,7 +104,7 @@ function selectPage(sel)
 	</div>
 </div>
 
-<% include ./views/footer.html%>
+{{include "./views/footer.html" .}}
 
 </body>
 </html>

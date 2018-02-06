@@ -92,3 +92,11 @@ func (g *GoodsModel) Query(sql string, params ...interface{}) (interface{}, erro
 	}
 	return ret, nil
 }
+
+func (g *GoodsModel) DecrGoodsNum(oid string, num int) *DMLResult {
+	var ret, err = DML(g.db, "update goods set goods_number=goods_number-? where oid=? and goods_number>=?", num, oid, num)
+	if err != nil {
+		panic(err)
+	}
+	return ret
+}

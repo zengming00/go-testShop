@@ -17,6 +17,7 @@ import (
 var cates *models.CatesModel
 var goods *models.GoodsModel
 var users *models.UsersModel
+var ordinfos *models.OrdinfosModel
 
 var sessionMgr = lib.NewSessionMgr("sid", 60*15)
 var cacheMgr = lib.NewCacheMgr(60)
@@ -33,6 +34,7 @@ func mHandle(h func(ctx *framework.HandlerContext)) HandleFunc {
 			Cates:      cates,
 			Goods:      goods,
 			Users:      users,
+			Ordinfos:   ordinfos,
 		}
 
 		defer func() {
@@ -50,6 +52,7 @@ func main() {
 	cates = models.NewCatesModel(db)
 	goods = models.NewGoodsModel(db)
 	users = models.NewUsersModel(db)
+	ordinfos = models.NewOrdinfosModel(db)
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
 
@@ -68,6 +71,7 @@ func main() {
 	http.HandleFunc("/routes/admin/drag.go", mHandle(admin.Drag))
 	http.HandleFunc("/routes/admin/top.go", mHandle(admin.Top))
 
+	http.HandleFunc("/routes/user/ordlist.go", mHandle(user.Ordlist))
 	http.HandleFunc("/routes/user/address.go", mHandle(user.Address))
 	http.HandleFunc("/routes/user/liuyan.go", mHandle(user.Liuyan))
 	http.HandleFunc("/routes/user/favor.go", mHandle(user.Favor))
