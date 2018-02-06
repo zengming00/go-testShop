@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<% include ./views/header.ejs %>
+{{include "./views/header.html" .}}
 
 <div class="content">
 	<div class="menu">当前位置: <span><a href="">首页</a> <code>&gt;</code> 用户中心</span></div>
@@ -22,25 +22,25 @@
 			<dl>
 				<dt><span>　</span>帐户管理</dt>
 				<dd>
-					<a href="/routes/user/ordlist.js">我的订单</a>
+					<a href="/routes/user/ordlist.go">我的订单</a>
 				</dd>
 				<dd>
-					<a href="/routes/user/liuyan.js">我的留言</a>
+					<a href="/routes/user/liuyan.go">我的留言</a>
 				</dd>
 				<dd class="ddor">
-					<a href="/routes/user/favor.js">我的收藏</a>
+					<a href="/routes/user/favor.go">我的收藏</a>
 				</dd>
 			</dl>
 			<dl>
 				<dt><span>　</span>个人信息管理</dt>
 				<dd>
-					<a href="/routes/user/info.js">用户信息</a>
+					<a href="/routes/user/info.go">用户信息</a>
 				</dd>
 				<dd>
-					<a href="/routes/user/repwd.js">修改密码</a>
+					<a href="/routes/user/repwd.go">修改密码</a>
 				</dd>
 				<dd>
-					<a href="/routes/user/address.js">收货地址</a>
+					<a href="/routes/user/address.go">收货地址</a>
 				</dd>
 			</dl>
 		</div>
@@ -94,6 +94,6 @@
 		</div>
 	</div>
 </div>
-<% include ./views/footer.html %>
+{{include "./views/footer.html" .}}
 </body>
 </html>
