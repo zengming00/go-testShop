@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<% include ./views/header.ejs %>
+{{include "./views/header.html" .}}
 
 <div class="content">
     <div class="menu">当前位置: <span><a href="">首页</a> <code>&gt;</code> 用户中心</span></div>
@@ -53,27 +53,27 @@
                         <div class="logregline">
                             <div class="logreg_l">收货地址：</div>
                             <div class="logreg_r">
-                                <% if(user.address){ %>
-                                    <%=user.address%>
-                                <% }else{ %>
+                                {{if .user.Address}}
+                                    {{.user.Address}}
+                                {{else}}
                                     <span style="color:red;">未填写（<a href="/routes/user/address.js">立即填写</a>）</span>
-                                <% } %>
+                                {{end}}
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="logregline">
                             <div class="logreg_l">用户名：</div>
-                            <div class="logreg_r"><%=user.userName%></div>
+                            <div class="logreg_r">{{.user.UserName}}</div>
                             <div class="clear"></div>
                         </div>
                         <div class="logregline">
                             <div class="logreg_l">电话：</div>
-                            <div class="logreg_r"><%=user.phone%></div>
+                            <div class="logreg_r">{{.user.Phone}}</div>
                             <div class="clear"></div>
                         </div>
                         <div class="logregline">
                             <div class="logreg_l">邮箱：</div>
-                            <div class="logreg_r"><%=user.email%></div>
+                            <div class="logreg_r">{{.user.Email}}</div>
                             <div class="clear"></div>
                         </div>
                     </div>
@@ -85,6 +85,6 @@
     </div>
 </div>
 
-<% include ./views/footer.html %>
+{{include "./views/footer.html" .}}
 </body>
 </html>
