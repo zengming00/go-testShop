@@ -39,5 +39,4 @@ func Category(ctx *framework.HandlerContext) {
 		}
 		ctx.Render("./views/category.html", data, lib.FuncMap)
 	}
-
 }

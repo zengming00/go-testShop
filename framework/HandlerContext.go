@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
+	"strings"
 
 	"github.com/zengming00/go-testShop/lib"
 	"github.com/zengming00/go-testShop/models"
@@ -20,6 +21,7 @@ type HandlerContext struct {
 	CacheMgr   *lib.CacheMgr
 	Cates      *models.CatesModel
 	Goods      *models.GoodsModel
+	Users      *models.UsersModel
 }
 
 func (c *HandlerContext) GetQuery() map[string]string {
@@ -169,4 +171,16 @@ func (c *HandlerContext) GetHistroys() []*models.Good {
 		}
 	}
 	return nil
+}
+
+func (ctx *HandlerContext) Verify(yzm string) bool {
+	var v, ok = ctx.GetSessionVal("__verify")
+	if ok {
+		if v == strings.ToUpper(yzm) {
+			//清空，防止多次使用
+			ctx.SetSessionVal("__verify", nil)
+			return true
+		}
+	}
+	return false
 }

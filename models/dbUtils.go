@@ -184,7 +184,7 @@ func Find(sql string, where, opt map[string]interface{}, queryFunc QueryFunc) (i
 func Add(db *sql.DB, table string, data map[string]interface{}) (*DMLResult, error) {
 	var r = ExportKeyValues(data)
 	var sql = MakeInsertSql(table, r.Keys)
-	return DML(db, sql, r.Values)
+	return DML(db, sql, r.Values...)
 }
 
 func Count(db *sql.DB, table string, where map[string]interface{}) (int, error) {

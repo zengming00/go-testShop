@@ -1,12 +1,15 @@
 package routes
 
 import (
+	"net/http"
+
 	"github.com/zengming00/go-testShop/framework"
 	"github.com/zengming00/go-testShop/lib"
 )
 
 func Index(ctx *framework.HandlerContext) {
 	if ctx.R.URL.Path != "/" {
+		ctx.W.WriteHeader(http.StatusServiceUnavailable)
 		return
 	}
 	if ctx.R.Method == "GET" {

@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"strconv"
 	"time"
 )
@@ -42,4 +44,9 @@ func equal(x, y []int) bool {
 		}
 	}
 	return true
+}
+
+func EncodePassword(pwd, salt string) string {
+	var r = md5.Sum([]byte(pwd + salt))
+	return hex.EncodeToString(r[:])
 }

@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<% include ./views/header.ejs %>
+{{include "./views/header.html" .}}
 
 <div class="mainot">
 	<script>
@@ -36,14 +36,14 @@
 					'phone': phone.value,
 					'yzm' : yzm.value
 				};
-				$.post('/routes/user/reg.js', obj, function (data) {
+				$.post('/routes/user/reg.go', obj, function (data) {
 					if(data.error){
 						alert(data.error);
 						$("#verify").click();
 					} else {
 						//注册成功
 						alert(''+data.success);
-						location.assign('login.js'); //TODO 跳转到用户页面
+						location.assign('login.go'); //TODO 跳转到用户页面
 					}
 				},'json');
 			}
@@ -137,7 +137,7 @@
 					<div class="logreg_l">请输入验证码：</div>
 					<div class="logreg_r">
 						<input type="text" name="yzm" id="yzm" class="input"  AUTOCOMPLETE="off">
-						<p><img src="/routes/capcha.js?" id="verify" onclick="this.src+=1"/></p>
+						<p><img src="/routes/capcha.go?" id="verify" onclick="this.src+=1"/></p>
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -152,6 +152,6 @@
 
 </div>
 
-<% include ./views/footer.html %>
+{{include "./views/footer.html" .}}
 </body>
 </html>
