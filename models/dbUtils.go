@@ -83,10 +83,11 @@ func BuildAnd(fields []string, values []interface{}) *BuildAndResult {
 	for i := 0; i < length; i++ {
 		k := fields[i]
 		v := values[i]
-		if m, ok := v.(map[string][]interface{}); ok {
+		if m, ok := v.(map[string]interface{}); ok {
 			if ins, ok := m["$in"]; ok {
-				conds = append(conds, k+" in ("+MakePlaceStr(len(ins))+")")
-				args = append(args, ins...)
+				var arr = lib.ToInterfaceSlice(ins)
+				conds = append(conds, k+" in ("+MakePlaceStr(len(arr))+")")
+				args = append(args, arr...)
 				continue
 			}
 			panic(errors.New("not support"))

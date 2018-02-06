@@ -1,8 +1,6 @@
 package routes
 
 import (
-	"fmt"
-
 	"github.com/zengming00/go-testShop/framework"
 	"github.com/zengming00/go-testShop/lib"
 )
@@ -50,7 +48,6 @@ func Index(ctx *framework.HandlerContext) {
 			"user": ctx.GetUser(),
 			"cart": ctx.GetCart(),
 		}
-		fmt.Printf("%#v\n", data["history"])
 		ctx.Render("./views/index.html", data, lib.FuncMap)
 	}
 }

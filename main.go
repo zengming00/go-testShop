@@ -54,6 +54,7 @@ func main() {
 	http.HandleFunc("/routes/admin/drag.go", mHandle(admin.Drag))
 	http.HandleFunc("/routes/admin/top.go", mHandle(admin.Top))
 
+	http.HandleFunc("/routes/category.go", mHandle(routes.Category))
 	http.HandleFunc("/routes/goods.go", mHandle(routes.Goods))
 	http.HandleFunc("/routes/capcha.go", mHandle(routes.Capcha))
 	http.HandleFunc("/favicon.ico", func(resp http.ResponseWriter, req *http.Request) {
