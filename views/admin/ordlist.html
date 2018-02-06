@@ -31,18 +31,18 @@
                 tr:hover{	background:#aaa; }
                 td{	background:inherit !important;  }
             </style>
-<% ords.forEach(function(ord){ %>
+{{range .ords}}
             <tr align="center" class="tree" id="0_1" id = 'tr_1'>
-                <td><%=toDateStr(new Date(ord.created_at))%></td>
+                <td>{{toDateStr .Created_at}}</td>
                 <td align="left" class="" style='font-weight: bold;padding-left: 2em'>
-                    <span><a href="javascript:void(0)" ><%=ord.ordId%></a></span>
+                    <span><a href="javascript:void(0)" >{{.OrdId}}</a></span>
                 </td>
-                <td align="right"><%=ord.money%></td>
-                <td><%=ord.payState ? '已支付,已发货' : '未支付'%></td>
-                <td><%=ord.address%></td>
-                <td><%=ord.fuyan%></td>
+                <td align="right">{{.Money}}</td>
+                <td>{{if .PayState}}已支付,已发货{{else}}未支付{{end}}</td>
+                <td>{{.Address}}</td>
+                <td>{{.Fuyan}}</td>
             </tr>
-<% }) %>
+{{end}}
         </table>
     </div>
 </form>

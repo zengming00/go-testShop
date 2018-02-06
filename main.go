@@ -60,6 +60,8 @@ func main() {
 	http.HandleFunc("/routes/admin/goodsadd.go", mHandle(admin.GoodsAdd))
 	http.HandleFunc("/routes/admin/goodslist.go", mHandle(admin.GoodsList))
 	http.HandleFunc("/routes/admin/login.go", mHandle(admin.Login))
+	http.HandleFunc("/routes/admin/ordlist.go", mHandle(admin.OrdList))
+	http.HandleFunc("/routes/admin/userlist.go", mHandle(admin.UserList))
 	http.HandleFunc("/routes/admin/catelist.go", mHandle(admin.CateList))
 	http.HandleFunc("/routes/admin/cateadd.go", mHandle(admin.CateAdd))
 	http.HandleFunc("/routes/admin/catedel.go", mHandle(admin.CateDel))
