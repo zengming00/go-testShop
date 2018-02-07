@@ -1,0 +1,60 @@
+64位win10 专业版虚拟机 I5-7500 分配4核5G内存
+内存最高占用94M  CPU最高不到50%
+网络最高74Mbps
+
+C:\Users\admin>ab -n 60000 -c 500 http://192.168.83.144:8080/routes/category.go?cat_id=588164abea7eb10f303ca2b6
+
+
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 192.168.83.144 (be patient)
+Completed 6000 requests
+Completed 12000 requests
+Completed 18000 requests
+Completed 24000 requests
+Completed 30000 requests
+Completed 36000 requests
+Completed 42000 requests
+Completed 48000 requests
+Completed 54000 requests
+Completed 60000 requests
+Finished 60000 requests
+
+
+Server Software:
+Server Hostname:        192.168.83.144
+Server Port:            8080
+
+Document Path:          /routes/category.go?cat_id=588164abea7eb10f303ca2b6
+Document Length:        27915 bytes
+
+Concurrency Level:      500
+Time taken for tests:   195.882 seconds
+Complete requests:      60000
+Failed requests:        0
+Total transferred:      1686360000 bytes
+HTML transferred:       1674900000 bytes
+Requests per second:    306.31 [#/sec] (mean)
+Time per request:       1632.349 [ms] (mean)
+Time per request:       3.265 [ms] (mean, across all concurrent requests)
+Transfer rate:          8407.29 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    3  17.4      3    3002
+Processing:    19 1623 388.4   1570    4609
+Waiting:        6  801 564.9    766    4437
+Total:         21 1626 388.8   1573    4611
+
+Percentage of the requests served within a certain time (ms)
+  50%   1573
+  66%   1618
+  75%   1649
+  80%   1670
+  90%   1718
+  95%   1771
+  98%   2015
+  99%   4438
+ 100%   4611 (longest request)
