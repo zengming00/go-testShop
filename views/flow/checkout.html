@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<%include ./views/header.ejs%>
+{{include "./views/header.html" .}}
 <div class="content">
 	<div class="user">
 		<div class="menu">当前位置: <span><a href="">首页</a> <code>&gt;</code> 购物流程</span></div>
@@ -29,11 +29,11 @@
 								<div class='tfmain_mdivm' id=step_2_address>
 									<p>收货地址：
 										<span>
-											<%if(user.address){%>
-											<%=user.address%>
-											<%}else{%>
+											{{if .user.Address}}
+											{{.user.Address}}
+											{{else}}
 											<span style="color:red">未填写（<a href="/routes/user/address.js">立即填写</a>）</span>
-											<%}%>
+											{{end}}
 										</span>
 									</p>
 									<div class='clear'></div>
@@ -45,26 +45,26 @@
 					<div id=step_7>
 						<div class='linebt'><span>商品列表</span><em></em></div>
 						<ul class='orderm_b'>
-							<li class='orderm_num'>序号 </li>
+							<!--li class='orderm_num'>序号 </li-->
 							<li class='orderm_zjd'>商品名称 </li>
 							<li class='orderm_xq'>购买数量 </li>
 							<li class='orderm_zf'>本店价 </li>
 							<li class='orderm_zf'>小计 <div class='clear'></div></li>
 						</ul>
-<%cart.items().forEach(function(g,i){%>
+{{range .cart.Items}}
 						<ul>
-							<li class='orderm_num'><%-i+1%></li>
+							<!--li class='orderm_num'><%-i+1%></li-->
 							<li class='orderm_zjd'>
-								<a href="/routes/goods.js?oid=<%=g.id%>" target="_blank"><%=g.name%></a>
+								<a href="/routes/goods.js?oid={{.Id}}" target="_blank">{{.Name}}</a>
 							</li>
-							<li class='orderm_xq'><%=g.num%></li>
-							<li class='orderm_zf'><%=g.price%> </li>
-							<li class='orderm_zf'><%=cart.floor(g.price * g.num)%></li><div class='clear'></div>
+							<li class='orderm_xq'>{{.Num}}</li>
+							<li class='orderm_zf'>{{.Price}} </li>
+							<li class='orderm_zf'>{{.Sum}}</li><div class='clear'></div>
 						</ul>
-<%})%>
+{{end}}
 						<div class='contno'>
 							<div class='contno_l'>
-								<span>购物金额总计 ￥<%=cart.getTotalMoney()%>元</span>
+								<span>购物金额总计 ￥{{.cart.GetTotalMoney}}元</span>
 							</div>
 							<div class='contno_r'><a class='f6' href="/routes/flow/cart.js">回到购物车，添加或删除商品</a></div>
 							<div class='clear'></div>
@@ -94,8 +94,8 @@
 							<div class='shoporder_mdiv'>
 								<div class='tfmain_mdivm'>
 									<div id=ECS_ORDERTOTAL style="padding-bottom: 20px; text-align: right">
-										商品总价: <font class='f4_b'>￥<%=cart.getTotalMoney()%>元</font> <br>
-										应付款金额: <font class='f4_b'>￥<%=cart.getTotalMoney()%>元</font> <br>
+										商品总价: <font class='f4_b'>￥{{.cart.GetTotalMoney}}元</font> <br>
+										应付款金额: <font class='f4_b'>￥{{.cart.GetTotalMoney}}元</font> <br>
 									</div>
 								</div>
 							</div>
@@ -110,6 +110,6 @@
 		</form>
 	</div>
 </div>
-<%include ./views/footer.html%>
+{{include "./views/footer.html" .}}
 </body>
 </html>

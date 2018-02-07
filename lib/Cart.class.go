@@ -8,6 +8,10 @@ type goodInfo struct {
 	Num   int
 }
 
+func (g *goodInfo) Sum() int {
+	return g.Price * g.Num
+}
+
 type Cart struct {
 	goods []*goodInfo
 }

@@ -11,6 +11,7 @@ import (
 	"github.com/zengming00/go-testShop/models"
 	"github.com/zengming00/go-testShop/routes"
 	"github.com/zengming00/go-testShop/routes/admin"
+	"github.com/zengming00/go-testShop/routes/flow"
 	"github.com/zengming00/go-testShop/routes/user"
 )
 
@@ -82,6 +83,10 @@ func main() {
 	http.HandleFunc("/routes/user/repwd.go", mHandle(user.Repwd))
 	http.HandleFunc("/routes/user/login.go", mHandle(user.Login))
 	http.HandleFunc("/routes/user/logout.go", mHandle(user.Logout))
+
+	http.HandleFunc("/routes/flow/checkout.go", mHandle(flow.Checkout))
+	http.HandleFunc("/routes/flow/cartApi.go", mHandle(flow.CartApi))
+	http.HandleFunc("/routes/flow/cart.go", mHandle(flow.Cart))
 
 	http.HandleFunc("/routes/category.go", mHandle(routes.Category))
 	http.HandleFunc("/routes/goods.go", mHandle(routes.Goods))
