@@ -18,7 +18,7 @@
 	<div class="user">
 		<div class="menu">当前位置: <span><a href="">首页</a> <code>&gt;</code> 购物流程</span></div>
 
-		<form id=theForm name=theForm action="/routes/flow/done.js" method=post>
+		<form id=theForm name=theForm action="/routes/flow/done.go" method=post>
 
 			<div class='shop'>
 				<div class='shoporder'>
@@ -32,13 +32,13 @@
 											{{if .user.Address}}
 											{{.user.Address}}
 											{{else}}
-											<span style="color:red">未填写（<a href="/routes/user/address.js">立即填写</a>）</span>
+											<span style="color:red">未填写（<a href="/routes/user/address.go">立即填写</a>）</span>
 											{{end}}
 										</span>
 									</p>
 									<div class='clear'></div>
 								</div>
-								<div class='tfmain_butr'><a href="/routes/user/address.js" name=but_step2_g1>修改</a></div>
+								<div class='tfmain_butr'><a href="/routes/user/address.go" name=but_step2_g1>修改</a></div>
 							</div>
 						</div>
 					</div>
@@ -55,7 +55,7 @@
 						<ul>
 							<!--li class='orderm_num'><%-i+1%></li-->
 							<li class='orderm_zjd'>
-								<a href="/routes/goods.js?oid={{.Id}}" target="_blank">{{.Name}}</a>
+								<a href="/routes/goods.go?oid={{.Id}}" target="_blank">{{.Name}}</a>
 							</li>
 							<li class='orderm_xq'>{{.Num}}</li>
 							<li class='orderm_zf'>{{.Price}} </li>
@@ -66,7 +66,7 @@
 							<div class='contno_l'>
 								<span>购物金额总计 ￥{{.cart.GetTotalMoney}}元</span>
 							</div>
-							<div class='contno_r'><a class='f6' href="/routes/flow/cart.js">回到购物车，添加或删除商品</a></div>
+							<div class='contno_r'><a class='f6' href="/routes/flow/cart.go">回到购物车，添加或删除商品</a></div>
 							<div class='clear'></div>
 						</div>
 					</div>

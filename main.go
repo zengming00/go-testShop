@@ -19,6 +19,7 @@ var cates *models.CatesModel
 var goods *models.GoodsModel
 var users *models.UsersModel
 var ordinfos *models.OrdinfosModel
+var ordgoods *models.OrdgoodsModel
 
 var sessionMgr = lib.NewSessionMgr("sid", 60*15)
 var cacheMgr = lib.NewCacheMgr(60)
@@ -36,6 +37,7 @@ func mHandle(h func(ctx *framework.HandlerContext)) HandleFunc {
 			Goods:      goods,
 			Users:      users,
 			Ordinfos:   ordinfos,
+			Ordgoods:   ordgoods,
 		}
 
 		defer func() {
@@ -54,6 +56,7 @@ func main() {
 	goods = models.NewGoodsModel(db)
 	users = models.NewUsersModel(db)
 	ordinfos = models.NewOrdinfosModel(db)
+	ordgoods = models.NewOrdgoodsModel(db)
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
 
@@ -87,6 +90,7 @@ func main() {
 	http.HandleFunc("/routes/flow/checkout.go", mHandle(flow.Checkout))
 	http.HandleFunc("/routes/flow/cartApi.go", mHandle(flow.CartApi))
 	http.HandleFunc("/routes/flow/cart.go", mHandle(flow.Cart))
+	http.HandleFunc("/routes/flow/done.go", mHandle(flow.Done))
 
 	http.HandleFunc("/routes/category.go", mHandle(routes.Category))
 	http.HandleFunc("/routes/goods.go", mHandle(routes.Goods))

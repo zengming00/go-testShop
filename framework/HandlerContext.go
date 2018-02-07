@@ -23,6 +23,7 @@ type HandlerContext struct {
 	Goods      *models.GoodsModel
 	Users      *models.UsersModel
 	Ordinfos   *models.OrdinfosModel
+	Ordgoods   *models.OrdgoodsModel
 }
 
 func (c *HandlerContext) GetQuery() map[string]string {
