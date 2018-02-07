@@ -2,6 +2,11 @@
 
 https://github.com/zengming00/go-server-js-testShop
 
+# 两种等效代码对比
+
+![两种等效代码对比](https://github.com/zengming00/go-testShop/raw/master/public/uploads/1.png)
+
+
 # 后台地址
 
 http://localhost:8080/routes/admin/login.js

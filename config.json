@@ -1,8 +1,0 @@
-{
-  "IndexFile": "/routes/index.js",
-  "Port": "8080",
-  "WorkDir": null,
-  "SessionMaxLifeTimeSec": 900,
-  "CacheGcIntervalSec": 60,
-  "ScriptTimeoutSec": 30
-}
